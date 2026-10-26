@@ -3,11 +3,11 @@
 <title>Entry-Level Pay in Europe</title>
 <meta name="description" content="Advertised pay for internships and junior roles across Europe, from 59,870 job postings.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@500;600&display=swap">
 <style>
 :root{
-  --font-anthropic-sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  --font-anthropic-serif:"Source Serif 4",Georgia,serif;
+  --font-text:"Nunito",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --font-title:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --cds-font-size-caption:.8125rem;--cds-font-size-body:1rem;--cds-font-size-heading:1.0625rem;--cds-font-size-title:2rem;
   --cds-font-weight-medium:600;
   --cds-gap-xs:4px;--cds-gap-sm:8px;--cds-gap-md:16px;--cds-gap-lg:24px;--cds-gap-xl:40px;
@@ -22,28 +22,28 @@
   --cds-chart-grid:#2c2c2a;--cds-chart-axis:#383835;--cds-chart-reference:#898781;--cds-chart-muted:#4a4a46;
   --cds-surface-popover:#242423;--cds-border:#383835;--cds-shadow-popover:0 4px 16px rgba(0,0,0,.5);--cds-text-secondary:#c3c2b7;
   --s1:#3987e5;--s2:#d95926;--s3:#199e70;--link:#86b6ef;color-scheme:dark}}
-html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:var(--font-anthropic-sans)}
+html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:var(--font-text)}
 .wrap{padding-block:32px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .pay a{color:var(--link)}
 .dash-skeleton{color:transparent;background:var(--color-border-line);border-radius:4px}
 
-.pay{font-family:var(--font-anthropic-sans);color:var(--color-fg);display:flex;flex-direction:column;gap:var(--cds-gap-xl);max-width:1200px;margin-inline:auto}
-.pay h1{font-family:var(--font-anthropic-serif);font-weight:400;font-size:var(--cds-font-size-title);margin:0;text-wrap:balance}
+.pay{font-family:var(--font-text);color:var(--color-fg);display:flex;flex-direction:column;gap:var(--cds-gap-xl);max-width:1200px;margin-inline:auto}
+.pay h1{font-family:var(--font-title);font-weight:600;font-size:var(--cds-font-size-title);margin:0;text-wrap:balance}
 .pay .lede{font-size:var(--cds-font-size-body);color:var(--color-fg-muted);margin:var(--cds-gap-sm) 0 0;max-width:70ch;line-height:1.5}
 .pay .lede b,.pay .note b{font-weight:600;color:var(--color-fg)}
 .pay .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,13rem),1fr));gap:var(--cds-gap-md)}
 .pay .tile{background:var(--color-panel);border:1px solid var(--color-border-line);border-radius:var(--cds-radius);padding:var(--cds-pad-lg);display:flex;flex-direction:column;gap:var(--cds-gap-xs)}
 .pay .tile .lab{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
-.pay .tile .val{font-family:var(--font-anthropic-serif);font-weight:400;font-size:var(--cds-font-size-title);line-height:1.1}
+.pay .tile .val{font-family:var(--font-title);font-weight:500;font-size:var(--cds-font-size-title);line-height:1.1}
 .pay .tile .sub{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
-.pay h2{font-size:var(--cds-font-size-heading);font-weight:var(--cds-font-weight-medium);margin:0 0 var(--cds-gap-sm)}
+.pay h2{font-family:var(--font-title);font-size:var(--cds-font-size-heading);font-weight:var(--cds-font-weight-medium);margin:0 0 var(--cds-gap-sm)}
 .pay .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,26rem),1fr));gap:var(--cds-gap-md)}
 .pay .card{background:var(--color-panel);border:1px solid var(--color-border-line);border-radius:var(--cds-radius);padding:var(--cds-pad-lg);min-width:0;display:flex;flex-direction:column;gap:var(--cds-gap-sm)}
-.pay .card h3{font-size:var(--cds-font-size-heading);font-weight:var(--cds-font-weight-medium);margin:0}
+.pay .card h3{font-family:var(--font-title);font-size:var(--cds-font-size-heading);font-weight:var(--cds-font-weight-medium);margin:0}
 .pay .note{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);margin:0;line-height:1.5;max-width:75ch}
 .pay .chart{position:relative;min-height:220px}
 .pay .chart svg{display:block;overflow:visible}
-.pay .chart text{font-family:var(--font-anthropic-sans);font-size:11px;fill:var(--color-fg-muted);font-variant-numeric:tabular-nums}
+.pay .chart text{font-family:var(--font-text);font-size:11px;fill:var(--color-fg-muted);font-variant-numeric:tabular-nums}
 .pay .chart text.lbl{fill:var(--color-fg)}
 .pay .legend{display:flex;flex-wrap:wrap;gap:var(--cds-gap-md);font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
 .pay .legend span{display:inline-flex;align-items:center;gap:6px}
@@ -53,8 +53,6 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 .pay .tt .r{display:flex;align-items:center;gap:6px}
 .pay .tt .r i{display:inline-block;width:10px;height:2px}
 .pay .tt .r b{font-weight:600}
-.pay .method{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);line-height:1.6;max-width:80ch}
-.pay .method ul{margin:var(--cds-gap-xs) 0;padding-left:1.2em}
 .pay [data-dash-source-state=refreshing]{opacity:.5;transition:opacity var(--cds-dur-slow)}
 .pay [data-dash-source-state=empty]{color:transparent}
 .pay .fail{display:flex;align-items:center;justify-content:center;gap:6px;min-height:200px;font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
@@ -66,7 +64,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 <div class="pay">
   <header id="top">
     <h1>Entry-level pay in Europe</h1>
-    <p class="lede" id="lede">Junior roles advertise a median of <b class="dash-skeleton" data-source="kpi" data-field="med_junior" data-row="0">—</b> a month and internships <b class="dash-skeleton" data-source="kpi" data-field="med_intern" data-row="0">—</b>, but only <b class="dash-skeleton" data-source="kpi" data-field="disclosure_rate" data-row="0">—</b> of postings show any pay. Where you are matters more than what you do: country moves the median by a factor of four, job function by up to about 20%.</p>
+    <p class="lede" id="lede">Junior roles advertise a median of <b class="dash-skeleton" data-source="kpi" data-field="med_junior" data-row="0">—</b> a month and internships <b class="dash-skeleton" data-source="kpi" data-field="med_intern" data-row="0">—</b>, but only <b class="dash-skeleton" data-source="kpi" data-field="disclosure_rate" data-row="0">—</b> of postings show any pay. Country and job functions are factors that cause significant difference across salaries. The data is collected by Karimi's data team (<a href="https://www.karimi.ai">www.karimi.ai</a>) using vacancies published in 2026 by companies hiring in Europe, sourced from the company Career pages.</p>
   </header>
 
   <section class="tiles" id="kpis">
@@ -117,18 +115,6 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
       <p class="note">All role types together, each posting compared with the median for its country and role type. Research organisations pay the most; consumer, lifestyle and hospitality employers pay the least.</p>
       <div class="chart" id="indChart" data-source="industries"></div>
     </div>
-  </section>
-
-  <section id="method" class="method">
-    <h2 style="color:var(--color-fg)">How the numbers were made</h2>
-    <ul>
-      <li>Salary ranges were parsed from free text (European and English number formats), converted to euros at approximate October 2026 rates, and the midpoint taken.</li>
-      <li>The source gives no pay period, so it was inferred from size: €5–60 is hourly (scaled to full time at 173 hours a month), €300–5,000 monthly, €5,000–150,000 annual (divided by 12). Values outside these ranges were dropped. Hourly student jobs are usually part-time, so their full-time figures overstate what students take home.</li>
-      <li>Postings repeated with the same title, company and salary were counted once, leaving <span data-source="kpi" data-field="usable" data-row="0">—</span> salaried postings.</li>
-      <li>Each posting was given a role type from its original and English title: internship (intern, stage, stagiaire, tirocinio, Praktikum, becario, staż, gyakornok, thesis…), work-study or apprenticeship (alternance, apprenti, Ausbildung, duales Studium) or working student (Werkstudent, job étudiant, studentische Hilfskraft). Postings labelled junior with one of these role types were moved to internship. Graduate and trainee programmes stay junior.</li>
-      <li>Source: internship and junior job postings collected by Karimi (59,870 postings). Download the <a href="data/salaries_clean.csv">cleaned salary table</a>.</li>
-      <li>Figures are advertised gross pay, not what people earn, and only cover employers who chose to publish pay.</li>
-    </ul>
   </section>
 </div>
 

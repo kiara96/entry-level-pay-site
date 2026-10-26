@@ -1,0 +1,9 @@
+category,role_type,n,p10,p25,median,p75,p90,premium_vs_country
+startups & scaleups,Internship,410,500.0,650.0,1000.0,1575.0,3500.0,0.0
+startups & scaleups,Junior,677,1910.2,2263.0,2895.0,3383.0,4350.0,0.087
+small & medium businesses,Internship,309,450.0,600.0,800.0,1967.0,3520.0,0.0
+small & medium businesses,Junior,1003,1400.0,1933.0,2690.0,3100.0,3500.0,-0.041
+corporate & enterprise,Internship,2296,500.0,700.0,1000.0,1980.0,2755.0,0.0
+corporate & enterprise,Junior,6929,1300.0,1837.0,2251.0,2835.0,3380.0,0.0
+public sector & NGO,Internship,328,554.2,800.0,2120.5,3259.0,3628.0,0.108
+public sector & NGO,Junior,1176,1618.0,2417.0,2898.5,3470.0,4102.5,0.036

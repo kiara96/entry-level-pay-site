@@ -115,12 +115,28 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
       <div class="chart" id="indChart" data-source="industries"></div>
     </div>
   </section>
+
+  <section id="company">
+    <h2>Company</h2>
+    <div class="card">
+      <h3>Monthly pay by company type</h3>
+      <p class="note">Median gross monthly pay. The line is the middle 80% of postings, the bar is the middle half, and the dot is the median. Junior pay is highest at startups and in the public sector and NGOs, and lowest at corporates, which publish most of the salaries. Internships sit near €800–€1,000, except in the public sector.</p>
+      <div class="legend"><span><i class="sw1"></i>Junior</span><span><i class="sw0"></i>Internship</span></div>
+      <div class="chart" id="typeChart" data-source="companyType"></div>
+    </div>
+    <div class="card" style="margin-top:var(--cds-gap-md)">
+      <h3>Monthly pay by company size</h3>
+      <p class="note">Same reading, from the smallest employers to the largest. Junior medians step down as employers get bigger: about €3,000 at solo and micro firms (30 postings) and €2,375 at enterprises. Solo and micro internships are left out, because there is only one salaried posting.</p>
+      <div class="legend"><span><i class="sw1"></i>Junior</span><span><i class="sw0"></i>Internship</span></div>
+      <div class="chart" id="sizeChart" data-source="companySize"></div>
+    </div>
+  </section>
 </div>
 
 </div>
 <script>
 window.dash=(function(){
-  const files={kpi:'kpi.csv',hist:'salary_histogram.csv',countries:'countries.csv',functions:'functions.csv',industries:'industries.csv'};
+  const files={kpi:'kpi.csv',hist:'salary_histogram.csv',countries:'countries.csv',functions:'functions.csv',industries:'industries.csv',companyType:'company_type.csv',companySize:'company_size.csv'};
   const store={};Object.keys(files).forEach(k=>store[k]={status:'loading',data:[]});
   const fns=[];const run=()=>fns.forEach(f=>f());
   Promise.all(Object.entries(files).map(([k,f])=>d3.csv('data/'+f).then(r=>{store[k]={status:'ok',data:r,columns:r.columns};}).catch(()=>{store[k]={status:'error',data:[]};}))).then(run);
@@ -273,6 +289,55 @@ dash.onData(()=>{
       tip:[{v:sgn(+r.premium),n:'vs country median'},{v:eur(+r.median),n:`raw median (n=${d3.format(',')(+r.postings_n)})`}]})).sort((a,b)=>b.value-a.value);
     hbars(ib,rows,{fmt:sgn,axisTop:true});
   }
+
+  // company type and size: median, middle half, middle 80%
+  function companyGroups(rows, order){
+    const minN=20;
+    const groups=d3.groups(rows, r=>r.category).map(([label, rs])=>({
+      label:label.charAt(0).toUpperCase()+label.slice(1),
+      raw:label,
+      series:rs.map(r=>({role:r.role_type,m:+r.median,a:+r.p25,b:+r.p75,lo:+r.p10,hi:+r.p90,n:+r.n,premium:+r.premium_vs_country})).filter(s=>s.n>=minN)
+    })).filter(g=>g.series.length);
+    if(order) groups.sort((a,b)=>order.indexOf(a.raw)-order.indexOf(b.raw));
+    else groups.sort((a,b)=>(b.series.find(s=>s.role==='Junior')||b.series[0]).m-(a.series.find(s=>s.role==='Junior')||a.series[0]).m);
+    return groups;
+  }
+  function spreadChart(box, groups){
+    box.textContent='';
+    if(!groups.length) return;
+    const W=box.clientWidth||700, rh=40, top=22, H=top+groups.length*rh+6;
+    const svg=d3.select(box).append('svg').attr('width','100%').attr('viewBox',`0 0 ${W} ${H}`).attr('height',H);
+    const lead=g=>g.series.find(s=>s.role==='Junior')||g.series[0];
+    const lw=Math.ceil(measure(svg, groups.map(g=>g.label)))+12;
+    const vw=Math.ceil(measure(svg, groups.map(g=>eur(lead(g).m))))+14;
+    const xmax=d3.max(groups, g=>d3.max(g.series, s=>s.hi))||1;
+    const x=d3.scaleLinear([0, xmax],[lw, W-vw]).nice();
+    const nt=Math.max(2, Math.floor((W-lw-vw)/90));
+    svg.append('g').selectAll('line').data(x.ticks(nt)).join('line').attr('x1',d=>x(d)).attr('x2',d=>x(d)).attr('y1',top-2).attr('y2',H).attr('stroke','var(--cds-chart-grid)');
+    const ax=svg.append('g').attr('transform',`translate(0,${top-6})`).call(d3.axisTop(x).ticks(nt).tickFormat(v=>'€'+d3.format(',')(v)).tickSize(0)).attr('font-size',null).attr('font-family',null);
+    ax.select('.domain').remove();
+    const col=role=>role==='Junior'?C[1]:C[0];
+    const g=svg.append('g').selectAll('g').data(groups).join('g').attr('transform',(d,i)=>`translate(0,${top+i*rh+rh/2})`);
+    g.append('text').attr('class','lbl').attr('x',lw-8).attr('dy','0.35em').attr('text-anchor','end').text(d=>d.label);
+    g.each(function(d){
+      const row=d3.select(this);
+      d.series.forEach(s=>{
+        const off=d.series.length<2?0:(s.role==='Junior'?-8:8);
+        const sg=row.append('g').attr('transform',`translate(0,${off})`);
+        sg.append('line').attr('x1',x(s.lo)).attr('x2',x(s.hi)).attr('stroke',col(s.role)).attr('stroke-width',2).attr('stroke-linecap','round');
+        sg.append('rect').attr('x',x(Math.min(s.a,s.b))).attr('width',Math.max(2,Math.abs(x(s.b)-x(s.a)))).attr('y',-4).attr('height',8).attr('rx',3).attr('fill',col(s.role)).attr('opacity',.45);
+        sg.append('circle').attr('cx',x(s.m)).attr('r',4.5).attr('fill',col(s.role)).attr('stroke','var(--color-panel)').attr('stroke-width',2);
+      });
+    });
+    g.append('text').attr('x',d=>x(d3.max(d.series,s=>s.hi))+8).attr('dy','0.35em').text(d=>eur(lead(d).m));
+    g.append('rect').attr('x',0).attr('width',W).attr('y',-rh/2).attr('height',rh).attr('fill','transparent')
+      .on('pointermove',(ev,d)=>showTip(box,ev,d.label,d.series.map(s=>({c:col(s.role),v:eur(s.m),n:`${s.role} · middle half ${eur(s.a)}–${eur(s.b)} · n=${d3.format(',')(s.n)} · ${sgn(s.premium)} vs country`}))))
+      .on('pointerleave',()=>hideTip(box));
+  }
+  const tb=document.getElementById('typeChart');
+  if(state(tb,'companyType')) spreadChart(tb, companyGroups(dash.data('companyType').data));
+  const sb=document.getElementById('sizeChart');
+  if(state(sb,'companySize')) spreadChart(sb, companyGroups(dash.data('companySize').data, ['Solo/micro (1-10)','Small (11-50)','Medium (51-200)','Large (201-1000)','Enterprise (1000+)']));
 });
 })();
 </script>

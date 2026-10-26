@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Entry-Level Pay in Europe</title>
+<meta name="description" content="Advertised pay for internships and junior roles across Europe, from 59,870 job postings.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400&display=swap">
+<style>
+:root{
+  --font-anthropic-sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --font-anthropic-serif:"Source Serif 4",Georgia,serif;
+  --cds-font-size-caption:.8125rem;--cds-font-size-body:1rem;--cds-font-size-heading:1.0625rem;--cds-font-size-title:2rem;
+  --cds-font-weight-medium:600;
+  --cds-gap-xs:4px;--cds-gap-sm:8px;--cds-gap-md:16px;--cds-gap-lg:24px;--cds-gap-xl:40px;
+  --cds-pad-xs:6px;--cds-pad-sm:10px;--cds-pad-lg:20px;--cds-radius:10px;--cds-dur-slow:.3s;
+  --color-bg:#f9f9f7;--color-panel:#fcfcfb;--color-fg:#0b0b0b;--color-fg-muted:#5f5e5a;--color-border-line:#e1e0d9;--color-bad:#d03b3b;
+  --cds-chart-grid:#ecebe6;--cds-chart-axis:#c3c2b7;--cds-chart-reference:#898781;--cds-chart-muted:#c3c2b7;
+  --cds-surface-popover:#ffffff;--cds-border:#e1e0d9;--cds-shadow-popover:0 4px 16px rgba(0,0,0,.08);--cds-text-secondary:#52514e;
+  --s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--link:#1c5cab;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --color-bg:#0d0d0d;--color-panel:#1a1a19;--color-fg:#f0efec;--color-fg-muted:#a3a29b;--color-border-line:#2c2c2a;
+  --cds-chart-grid:#2c2c2a;--cds-chart-axis:#383835;--cds-chart-reference:#898781;--cds-chart-muted:#4a4a46;
+  --cds-surface-popover:#242423;--cds-border:#383835;--cds-shadow-popover:0 4px 16px rgba(0,0,0,.5);--cds-text-secondary:#c3c2b7;
+  --s1:#3987e5;--s2:#d95926;--s3:#199e70;--link:#86b6ef;color-scheme:dark}}
+html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:var(--font-anthropic-sans)}
+.wrap{padding-block:32px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.pay a{color:var(--link)}
+.dash-skeleton{color:transparent;background:var(--color-border-line);border-radius:4px}
+
+.pay{font-family:var(--font-anthropic-sans);color:var(--color-fg);display:flex;flex-direction:column;gap:var(--cds-gap-xl);max-width:1200px;margin-inline:auto}
+.pay h1{font-family:var(--font-anthropic-serif);font-weight:400;font-size:var(--cds-font-size-title);margin:0;text-wrap:balance}
+.pay .lede{font-size:var(--cds-font-size-body);color:var(--color-fg-muted);margin:var(--cds-gap-sm) 0 0;max-width:70ch;line-height:1.5}
+.pay .lede b,.pay .note b{font-weight:600;color:var(--color-fg)}
+.pay .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,13rem),1fr));gap:var(--cds-gap-md)}
+.pay .tile{background:var(--color-panel);border:1px solid var(--color-border-line);border-radius:var(--cds-radius);padding:var(--cds-pad-lg);display:flex;flex-direction:column;gap:var(--cds-gap-xs)}
+.pay .tile .lab{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
+.pay .tile .val{font-family:var(--font-anthropic-serif);font-weight:400;font-size:var(--cds-font-size-title);line-height:1.1}
+.pay .tile .sub{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
+.pay h2{font-size:var(--cds-font-size-heading);font-weight:var(--cds-font-weight-medium);margin:0 0 var(--cds-gap-sm)}
+.pay .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,26rem),1fr));gap:var(--cds-gap-md)}
+.pay .card{background:var(--color-panel);border:1px solid var(--color-border-line);border-radius:var(--cds-radius);padding:var(--cds-pad-lg);min-width:0;display:flex;flex-direction:column;gap:var(--cds-gap-sm)}
+.pay .card h3{font-size:var(--cds-font-size-heading);font-weight:var(--cds-font-weight-medium);margin:0}
+.pay .note{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);margin:0;line-height:1.5;max-width:75ch}
+.pay .chart{position:relative;min-height:220px}
+.pay .chart svg{display:block;overflow:visible}
+.pay .chart text{font-family:var(--font-anthropic-sans);font-size:11px;fill:var(--color-fg-muted);font-variant-numeric:tabular-nums}
+.pay .chart text.lbl{fill:var(--color-fg)}
+.pay .legend{display:flex;flex-wrap:wrap;gap:var(--cds-gap-md);font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
+.pay .legend span{display:inline-flex;align-items:center;gap:6px}
+.pay .legend i{display:inline-block;width:10px;height:10px;border-radius:2px}
+.pay .tt{position:absolute;pointer-events:none;background:var(--cds-surface-popover);border:1px solid var(--cds-border);border-radius:var(--cds-radius);box-shadow:var(--cds-shadow-popover);padding:var(--cds-pad-xs) var(--cds-pad-sm);font-size:var(--cds-font-size-caption);white-space:nowrap;z-index:5}
+.pay .tt .h{color:var(--cds-text-secondary);margin-bottom:2px}
+.pay .tt .r{display:flex;align-items:center;gap:6px}
+.pay .tt .r i{display:inline-block;width:10px;height:2px}
+.pay .tt .r b{font-weight:600}
+.pay .method{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);line-height:1.6;max-width:80ch}
+.pay .method ul{margin:var(--cds-gap-xs) 0;padding-left:1.2em}
+.pay [data-dash-source-state=refreshing]{opacity:.5;transition:opacity var(--cds-dur-slow)}
+.pay [data-dash-source-state=empty]{color:transparent}
+.pay .fail{display:flex;align-items:center;justify-content:center;gap:6px;min-height:200px;font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
+.pay .fail::before{content:"";width:.375rem;height:.375rem;border-radius:50%;background:var(--color-bad)}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+</head><body><div class="wrap">
+
+<div class="pay">
+  <header id="top">
+    <h1>Entry-level pay in Europe</h1>
+    <p class="lede" id="lede">Junior roles advertise a median of <b class="dash-skeleton" data-source="kpi" data-field="med_junior" data-row="0">—</b> a month and internships <b class="dash-skeleton" data-source="kpi" data-field="med_intern" data-row="0">—</b>, but only <b class="dash-skeleton" data-source="kpi" data-field="disclosure_rate" data-row="0">—</b> of postings show any pay. Where you are matters more than what you do: country moves the median by a factor of four, job function by up to about 20%.</p>
+  </header>
+
+  <section class="tiles" id="kpis">
+    <div class="tile"><span class="lab">Postings that show pay</span><span class="val dash-skeleton" data-source="kpi" data-field="disclosure_rate" data-row="0">—</span><span class="sub">of <span data-source="kpi" data-field="total" data-row="0">—</span> internship and junior postings</span></div>
+    <div class="tile"><span class="lab">Junior median, gross per month</span><span class="val dash-skeleton" data-source="kpi" data-field="med_junior" data-row="0">—</span><span class="sub">middle half <span data-source="kpi" data-field="junior_p25" data-row="0">—</span> to <span data-source="kpi" data-field="junior_p75" data-row="0">—</span></span></div>
+    <div class="tile"><span class="lab">Internship median, gross per month</span><span class="val dash-skeleton" data-source="kpi" data-field="med_intern" data-row="0">—</span><span class="sub">middle half <span data-source="kpi" data-field="intern_p25" data-row="0">—</span> to <span data-source="kpi" data-field="intern_p75" data-row="0">—</span></span></div>
+    <div class="tile"><span class="lab">"Junior" postings that were student roles</span><span class="val dash-skeleton" data-source="kpi" data-field="corrected_share" data-row="0">—</span><span class="sub"><span data-source="kpi" data-field="corrected" data-row="0">—</span> postings moved to internship, work-study or working student</span></div>
+  </section>
+
+  <section id="distribution">
+    <h2>How pay is spread</h2>
+    <div class="card">
+      <h3>Share of salaried postings by monthly gross pay (€200 bands)</h3>
+      <p class="note">Internships here exclude work-study and working-student roles. They pile up at customary stipends (€500, €700–800, €1,000), with a second group near €2,000–3,000 where interns are paid as employees. Junior pay is tighter, centred on €2,000–3,000. Pay above €6,000 is grouped into the last band.</p>
+      <div class="legend"><span><i class="sw0"></i>Internship</span><span><i class="sw1"></i>Junior</span></div>
+      <div class="chart" id="histChart" data-source="hist"></div>
+    </div>
+  </section>
+
+  <section id="countries">
+    <h2>Country</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Median monthly pay, junior vs internship</h3>
+        <p class="note">Countries with at least 30 salaried junior postings; internship dot shown where there are at least 20 internships (work-study and working students excluded). The gap is widest in the Netherlands and Italy, where interns get an allowance. In the UK, Austria and Poland interns are paid close to junior rates: UK interns are usually employees, and Austrian ads quote collective-agreement pay.</p>
+        <div class="legend"><span><i class="sw1"></i>Junior</span><span><i class="sw0"></i>Internship</span></div>
+        <div class="chart" id="countryChart" data-source="countries"></div>
+      </div>
+      <div class="card">
+        <h3>Share of postings that show pay</h3>
+        <p class="note">Countries with at least 200 postings. Austria requires a minimum salary in job ads, and it shows. Nordic, Swiss and Luxembourg employers almost never publish pay, so those medians rest on few postings.</p>
+        <div class="chart" id="discChart" data-source="countries kpi"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="roles">
+    <h2>Role and sector</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Junior pay vs the country median, by function</h3>
+        <p class="note">Each posting is compared with the junior median in its own country, so a function is not rewarded for being common in a high-pay country. Consulting, software, sales, finance and research pay 13–21% above; hospitality pays about 8% below. Marketing, creative and legal are left out: once student roles are removed, fewer than 60 junior postings with pay remain.</p>
+        <div class="chart" id="funcChart" data-source="functions"></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:var(--cds-gap-md)">
+      <h3>Pay vs the country median, by employer industry</h3>
+      <p class="note">All role types together, each posting compared with the median for its country and role type. Research organisations pay the most; consumer, lifestyle and hospitality employers pay the least.</p>
+      <div class="chart" id="indChart" data-source="industries"></div>
+    </div>
+  </section>
+
+  <section id="method" class="method">
+    <h2 style="color:var(--color-fg)">How the numbers were made</h2>
+    <ul>
+      <li>Salary ranges were parsed from free text (European and English number formats), converted to euros at approximate October 2026 rates, and the midpoint taken.</li>
+      <li>The source gives no pay period, so it was inferred from size: €5–60 is hourly (scaled to full time at 173 hours a month), €300–5,000 monthly, €5,000–150,000 annual (divided by 12). Values outside these ranges were dropped. Hourly student jobs are usually part-time, so their full-time figures overstate what students take home.</li>
+      <li>Postings repeated with the same title, company and salary were counted once, leaving <span data-source="kpi" data-field="usable" data-row="0">—</span> salaried postings.</li>
+      <li>Each posting was given a role type from its original and English title: internship (intern, stage, stagiaire, tirocinio, Praktikum, becario, staż, gyakornok, thesis…), work-study or apprenticeship (alternance, apprenti, Ausbildung, duales Studium) or working student (Werkstudent, job étudiant, studentische Hilfskraft). Postings labelled junior with one of these role types were moved to internship. Graduate and trainee programmes stay junior.</li>
+      <li>Source: internship and junior job postings collected by Karimi (59,870 postings). Download the <a href="data/salaries_clean.csv">cleaned salary table</a>.</li>
+      <li>Figures are advertised gross pay, not what people earn, and only cover employers who chose to publish pay.</li>
+    </ul>
+  </section>
+</div>
+
+</div>
+<script>
+window.dash=(function(){
+  const files={kpi:'kpi.csv',hist:'salary_histogram.csv',countries:'countries.csv',functions:'functions.csv',industries:'industries.csv'};
+  const store={};Object.keys(files).forEach(k=>store[k]={status:'loading',data:[]});
+  const fns=[];const run=()=>fns.forEach(f=>f());
+  Promise.all(Object.entries(files).map(([k,f])=>d3.csv('data/'+f).then(r=>{store[k]={status:'ok',data:r,columns:r.columns};}).catch(()=>{store[k]={status:'error',data:[]};}))).then(run);
+  let t;window.addEventListener('resize',()=>{clearTimeout(t);t=setTimeout(run,150);});
+  return {colors:['var(--s1)','var(--s2)','var(--s3)'],data:id=>store[id]||{status:'missing',data:[]},onData:fn=>{fns.push(fn);fn();}};
+})();
+</script>
+<script>
+(function(){
+const C=dash.colors;
+document.querySelectorAll('.pay .sw0').forEach(e=>e.style.background=C[0]);
+document.querySelectorAll('.pay .sw1').forEach(e=>e.style.background=C[1]);
+const eur=v=>'€'+d3.format(',.0f')(v);
+const pct=d3.format('.0%');
+const pct1=d3.format('.1%');
+const sgn=v=>(v>0?'+':v<0?'−':'±')+d3.format('.0%')(Math.abs(v));
+const num=v=>(v===''||v==null)?null:+v;
+
+function tip(box){let t=box.querySelector('.tt');if(!t){t=document.createElement('div');t.className='tt';t.hidden=true;box.appendChild(t);}return t;}
+function showTip(box,ev,head,rows){
+  const t=tip(box);t.textContent='';
+  const h=document.createElement('div');h.className='h';h.textContent=head;t.appendChild(h);
+  rows.forEach(r=>{const d=document.createElement('div');d.className='r';if(r.c){const i=document.createElement('i');i.style.background=r.c;d.appendChild(i);}const b=document.createElement('b');b.textContent=r.v;d.appendChild(b);const s=document.createElement('span');s.textContent=r.n;d.appendChild(s);t.appendChild(d);});
+  t.hidden=false;
+  const bb=box.getBoundingClientRect();let x=ev.clientX-bb.left+12,y=ev.clientY-bb.top+12;
+  const w=t.offsetWidth,hh=t.offsetHeight;if(x+w>bb.width)x=Math.max(0,ev.clientX-bb.left-w-12);if(y+hh>bb.height+40)y=ev.clientY-bb.top-hh-12;
+  t.style.left=x+'px';t.style.top=y+'px';
+}
+function hideTip(box){const t=box.querySelector('.tt');if(t)t.hidden=true;}
+function state(box,id){
+  const s=dash.data(id).status;
+  if(s==='ok')return true;
+  box.textContent='';
+  if(s==='error'||s==='connect'){const f=document.createElement('div');f.className='fail';f.textContent='Failed to load';box.appendChild(f);}
+  return false;
+}
+function measure(svg,texts){let m=0;const g=svg.append('g');texts.forEach(t=>{const n=g.append('text').text(t).node();m=Math.max(m,n.getComputedTextLength());});g.remove();return m;}
+
+// generic horizontal bar chart
+function hbars(box,rows,o){
+  box.textContent='';
+  const W=box.clientWidth||600,bh=18,gap=8,top=o.axisTop?22:4,H=top+rows.length*(bh+gap)+4;
+  const svg=d3.select(box).append('svg').attr('width','100%').attr('viewBox',`0 0 ${W} ${H}`).attr('height',H);
+  const lw=Math.ceil(measure(svg,rows.map(r=>r.label)))+10;
+  const vw=Math.ceil(measure(svg,rows.map(r=>o.fmt(r.value))))+8;
+  const ext=d3.extent(rows.map(r=>r.value).concat([0]));
+  const x=d3.scaleLinear([ext[0],ext[1]],[lw+(ext[0]<0?vw:0),W-vw]).nice();
+  const y=(i)=>top+i*(bh+gap);
+  if(o.axisTop){
+    const ax=svg.append('g').attr('transform',`translate(0,${top-6})`).call(d3.axisTop(x).ticks(Math.max(2,Math.floor((W-lw)/90))).tickFormat(o.tick||o.fmt).tickSize(0)).attr('font-size',null).attr('font-family',null);
+    ax.select('.domain').remove();
+    svg.append('g').selectAll('line').data(x.ticks(Math.max(2,Math.floor((W-lw)/90)))).join('line').attr('x1',d=>x(d)).attr('x2',d=>x(d)).attr('y1',top-2).attr('y2',H).attr('stroke','var(--cds-chart-grid)');
+  }
+  svg.append('line').attr('x1',x(0)).attr('x2',x(0)).attr('y1',top-2).attr('y2',H).attr('stroke','var(--cds-chart-axis)');
+  if(o.ref!=null){svg.append('line').attr('x1',x(o.ref)).attr('x2',x(o.ref)).attr('y1',top-2).attr('y2',H).attr('stroke','var(--cds-chart-reference)').attr('stroke-dasharray','4 3');
+    svg.append('text').attr('x',x(o.ref)+4).attr('y',H-2).text(o.refLabel);}
+  const g=svg.append('g').selectAll('g').data(rows).join('g').attr('transform',(d,i)=>`translate(0,${y(i)})`);
+  g.append('text').attr('class','lbl').attr('x',lw-8).attr('y',bh/2).attr('dy','0.35em').attr('text-anchor','end').text(d=>d.label);
+  g.append('rect').attr('x',d=>Math.min(x(0),x(d.value))).attr('width',d=>Math.max(1,Math.abs(x(d.value)-x(0)))).attr('height',bh).attr('rx',4)
+    .attr('fill',d=>d.color||C[0]);
+  g.append('text').attr('x',d=>d.value>=0?x(d.value)+4:x(d.value)-4).attr('text-anchor',d=>d.value>=0?'start':'end').attr('y',bh/2).attr('dy','0.35em').text(d=>o.fmt(d.value));
+  g.append('rect').attr('x',0).attr('width',W).attr('y',-gap/2).attr('height',bh+gap).attr('fill','transparent')
+    .on('pointermove',(ev,d)=>showTip(box,ev,d.label,d.tip)).on('pointerleave',()=>hideTip(box));
+}
+
+dash.onData(()=>{
+  // KPI fills
+  const k=dash.data('kpi');
+  const kv=k.status==='ok'?k.data[0]:null;
+  document.querySelectorAll('.pay [data-source="kpi"]').forEach(el=>{
+    if(!kv){if(k.status!=='loading')el.classList.remove('dash-skeleton');return;}
+    el.classList.remove('dash-skeleton');
+    const f=el.dataset.field,v=+kv[f];
+    el.textContent=/rate|share/.test(f)?pct(v):/total|usable|^corrected$/.test(f)?d3.format(',')(v):eur(v);
+  });
+
+  // histogram
+  const hb=document.getElementById('histChart');
+  if(state(hb,'hist')){
+    hb.textContent='';
+    const rows=dash.data('hist').data.map(r=>({a:+r.bin_start,b:+r.bin_end,i:+r.internship,j:+r.junior}));
+    const ti=d3.sum(rows,r=>r.i),tj=d3.sum(rows,r=>r.j);
+    rows.forEach(r=>{r.si=r.i/ti;r.sj=r.j/tj;});
+    const W=hb.clientWidth||700,H=240,m={t:8,r:8,b:24,l:40};
+    const svg=d3.select(hb).append('svg').attr('width','100%').attr('viewBox',`0 0 ${W} ${H}`).attr('height',H);
+    const x=d3.scaleLinear([0,6000],[m.l,W-m.r]);
+    const y=d3.scaleLinear([0,d3.max(rows,r=>Math.max(r.si,r.sj))],[H-m.b,m.t]).nice();
+    svg.append('g').selectAll('line').data(y.ticks(4)).join('line').attr('x1',m.l).attr('x2',W-m.r).attr('y1',d=>y(d)).attr('y2',d=>y(d)).attr('stroke','var(--cds-chart-grid)');
+    const ya=svg.append('g').attr('transform',`translate(${m.l},0)`).call(d3.axisLeft(y).ticks(4).tickFormat(pct).tickSize(0)).attr('font-size',null).attr('font-family',null);ya.select('.domain').remove();ya.selectAll('text').attr('dx','-4');
+    const xa=svg.append('g').attr('transform',`translate(0,${H-m.b})`).call(d3.axisBottom(x).ticks(Math.min(6,Math.floor(W/90))).tickFormat(v=>v>=6000?'€6k+':'€'+d3.format('~s')(v)).tickSize(0)).attr('font-size',null).attr('font-family',null);
+    xa.select('.domain').attr('stroke','var(--cds-chart-axis)');xa.selectAll('text').attr('dy','1.2em');
+    const bw=(x(200)-x(0)-3)/2;
+    [['si',0,-1],['sj',1,0]].forEach(([k,ci,off])=>{
+      svg.append('g').selectAll('rect').data(rows).join('rect').attr('x',r=>x(r.a)+1+(off+1)*bw+ (off<0?0:1)).attr('width',Math.max(1,bw)).attr('y',r=>y(r[k])).attr('height',r=>Math.max(0,y(0)-y(r[k]))).attr('rx',Math.min(4,bw/2)).attr('fill',C[ci]);
+    });
+    const hl=svg.append('rect').attr('fill','var(--cds-chart-grid)').attr('opacity',0).attr('y',m.t).attr('height',H-m.b-m.t);
+    hl.lower();
+    svg.append('rect').attr('x',m.l).attr('width',W-m.l-m.r).attr('y',0).attr('height',H-m.b).attr('fill','transparent')
+      .on('pointermove',ev=>{const [px]=d3.pointer(ev);const r=rows[Math.max(0,Math.min(rows.length-1,Math.floor(x.invert(px)/200)))];
+        hl.attr('x',x(r.a)).attr('width',x(r.b)-x(r.a)).attr('opacity',1);
+        showTip(hb,ev,r.a>=5800?'€5,800 and above':`${eur(r.a)}–${eur(r.b)}`,[{c:C[0],v:pct1(r.si),n:`Internship (${d3.format(',')(r.i)})`},{c:C[1],v:pct1(r.sj),n:`Junior (${d3.format(',')(r.j)})`}]);})
+      .on('pointerleave',()=>{hl.attr('opacity',0);hideTip(hb);});
+  }
+
+  // country dumbbell
+  const cb=document.getElementById('countryChart');
+  if(state(cb,'countries')){
+    cb.textContent='';
+    const rows=dash.data('countries').data.filter(r=>num(r.junior_median)!=null).map(r=>({c:r.country,j:+r.junior_median,jn:+r.junior_n,i:num(r.intern_median),inn:num(r.intern_n)||0})).sort((a,b)=>b.j-a.j);
+    const W=cb.clientWidth||500,rh=22,top=22,H=top+rows.length*rh+4;
+    const svg=d3.select(cb).append('svg').attr('width','100%').attr('viewBox',`0 0 ${W} ${H}`).attr('height',H);
+    const lw=Math.ceil(measure(svg,rows.map(r=>r.c)))+12;
+    const x=d3.scaleLinear([0,d3.max(rows,r=>r.j)],[lw,W-44]).nice();
+    const nt=Math.max(2,Math.floor((W-lw)/80));
+    svg.append('g').selectAll('line').data(x.ticks(nt)).join('line').attr('x1',d=>x(d)).attr('x2',d=>x(d)).attr('y1',top-2).attr('y2',H).attr('stroke','var(--cds-chart-grid)');
+    const ax=svg.append('g').attr('transform',`translate(0,${top-6})`).call(d3.axisTop(x).ticks(nt).tickFormat(v=>'€'+d3.format(',')(v)).tickSize(0)).attr('font-size',null).attr('font-family',null);ax.select('.domain').remove();
+    const g=svg.append('g').selectAll('g').data(rows).join('g').attr('transform',(d,i)=>`translate(0,${top+i*rh+rh/2})`);
+    g.append('text').attr('class','lbl').attr('x',lw-8).attr('dy','0.35em').attr('text-anchor','end').text(d=>d.c);
+    g.filter(d=>d.i!=null).append('line').attr('x1',d=>x(d.i)).attr('x2',d=>x(d.j)).attr('stroke','var(--cds-chart-muted)').attr('stroke-width',2).attr('stroke-linecap','round');
+    g.filter(d=>d.i!=null).append('circle').attr('cx',d=>x(d.i)).attr('r',5).attr('fill',C[0]).attr('stroke','var(--color-panel)').attr('stroke-width',2);
+    g.append('circle').attr('cx',d=>x(d.j)).attr('r',5).attr('fill',C[1]).attr('stroke','var(--color-panel)').attr('stroke-width',2);
+    g.append('text').attr('x',d=>x(d.j)+9).attr('dy','0.35em').text(d=>'€'+d3.format(',.1~f')(d.j/1000)+'k');
+    g.append('rect').attr('x',0).attr('width',W).attr('y',-rh/2).attr('height',rh).attr('fill','transparent')
+      .on('pointermove',(ev,d)=>showTip(cb,ev,d.c,[{c:C[1],v:eur(d.j),n:`Junior (n=${d.jn})`}].concat(d.i!=null?[{c:C[0],v:eur(d.i),n:`Internship (n=${d.inn})`}]:[{v:'—',n:`Internship (n=${d.inn}, too few)`}])))
+      .on('pointerleave',()=>hideTip(cb));
+  }
+
+  // disclosure
+  const db=document.getElementById('discChart');
+  if(state(db,'countries')){
+    const overall=kv?+kv.disclosure_rate:null;
+    const rows=dash.data('countries').data.filter(r=>num(r.disclosure_rate)!=null).map(r=>({label:r.country,value:+r.disclosure_rate,
+      color:(overall!=null&&+r.disclosure_rate<overall)?'var(--cds-chart-muted)':C[0],
+      tip:[{v:pct1(+r.disclosure_rate),n:`of ${d3.format(',')(+r.postings)} postings`}]})).sort((a,b)=>b.value-a.value);
+    hbars(db,rows,{fmt:pct,axisTop:true,ref:overall,refLabel:overall!=null?`All: ${pct(overall)}`:''});
+  }
+
+  // functions
+  const fb=document.getElementById('funcChart');
+  if(state(fb,'functions')){
+    const rows=dash.data('functions').data.filter(r=>num(r.premium)!=null).map(r=>({label:r.function,value:+r.premium,
+      color:+r.premium>=0?C[0]:'var(--cds-chart-muted)',tip:[{v:sgn(+r.premium),n:'vs country junior median'},{v:eur(+r.junior_median),n:`raw median (n=${r.junior_n})`}]})).sort((a,b)=>b.value-a.value);
+    hbars(fb,rows,{fmt:sgn,axisTop:true});
+  }
+
+  // industries
+  const ib=document.getElementById('indChart');
+  if(state(ib,'industries')){
+    const rows=dash.data('industries').data.map(r=>({label:r.industry,value:+r.premium,color:+r.premium>=0?C[0]:'var(--cds-chart-muted)',
+      tip:[{v:sgn(+r.premium),n:'vs country median'},{v:eur(+r.median),n:`raw median (n=${d3.format(',')(+r.postings_n)})`}]})).sort((a,b)=>b.value-a.value);
+    hbars(ib,rows,{fmt:sgn,axisTop:true});
+  }
+});
+})();
+</script>
+</body></html>

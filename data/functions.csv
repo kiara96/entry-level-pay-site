@@ -1,0 +1,20 @@
+function,premium,junior_n,junior_median,corrected_share,labelled_junior_n
+Admin & Office,0.012,231.0,2594.0,0.2084,1161
+Construction & Trades,0.0198,187.0,2365.0,0.2571,1167
+Creative & Design,,,,0.636,283
+Customer & Support,-0.0347,201.0,2488.0,0.1119,1019
+Education,-0.0173,123.0,2602.0,0.3035,682
+Engineering & Tech,0.0947,323.0,2562.0,0.3245,2826
+Finance & Accounting,0.1353,173.0,2833.0,0.3631,1691
+Health & Care,0.0317,338.0,2757.0,0.1504,1868
+Hospitality & Food,-0.0815,451.0,2088.0,0.0849,1660
+HR & People,-0.0195,167.0,2637.0,0.5303,1567
+Legal,,,,0.4253,308
+Marketing & Comms,,,,0.7177,1059
+Ops & Supply chain,-0.0195,648.0,2550.0,0.1817,2663
+Public & Social,-0.0423,96.0,2338.0,0.3078,679
+Retail,0.0,444.0,2000.0,0.0749,3124
+Sales & BD,0.1456,495.0,2799.0,0.1599,3209
+Science & Research,0.1255,141.0,3470.0,0.273,586
+Software & Data,0.17,206.0,2917.0,0.4466,2183
+Strategy & Consulting,0.2086,73.0,3300.0,0.3683,801

@@ -57,6 +57,11 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 .pay [data-dash-source-state=empty]{color:transparent}
 .pay .fail{display:flex;align-items:center;justify-content:center;gap:6px;min-height:200px;font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
 .pay .fail::before{content:"";width:.375rem;height:.375rem;border-radius:50%;background:var(--color-bad)}
+.pay .cardhead{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--cds-gap-md)}
+.pay .cardhead h3{min-width:0}
+.pay .dl{flex:none;margin-top:1px;appearance:none;background:transparent;border:1px solid var(--color-border-line);border-radius:999px;color:var(--color-fg);font-family:var(--font-text);font-size:var(--cds-font-size-caption);line-height:1.2;padding:5px 10px;cursor:pointer}
+.pay .dl:hover{border-color:var(--color-fg-muted)}
+.pay .dl:disabled{opacity:.55;cursor:progress}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 </head><body><div class="wrap">
@@ -339,6 +344,144 @@ dash.onData(()=>{
   const sb=document.getElementById('sizeChart');
   if(state(sb,'companySize')) spreadChart(sb, companyGroups(dash.data('companySize').data, ['Solo/micro (1-10)','Small (11-50)','Medium (51-200)','Large (201-1000)','Enterprise (1000+)']));
 });
+
+const NS='http://www.w3.org/2000/svg';
+let fontCssPromise;
+function bytesToB64(buf){
+  const bytes=new Uint8Array(buf);let bin='';
+  for(let i=0;i<bytes.length;i+=0x8000) bin+=String.fromCharCode.apply(null,bytes.subarray(i,i+0x8000));
+  return btoa(bin);
+}
+function ensureFonts(){
+  if(!fontCssPromise) fontCssPromise=fetch('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&family=Poppins:wght@600&display=swap')
+    .then(r=>r.text())
+    .then(async css=>{
+      const faces=css.split(/@font-face\s*{/).slice(1).map(part=>'@font-face{'+part.split('}')[0]+'}')
+        .filter(face=>/20AC|0000-00FF/i.test(face));
+      const out=[];
+      for(const face of faces){
+        const m=face.match(/url\((https:[^)]+)\)/);
+        if(!m) continue;
+        const buf=await fetch(m[1]).then(r=>r.arrayBuffer());
+        out.push(face.replace(m[1],'data:font/woff2;base64,'+bytesToB64(buf)));
+      }
+      return out.join('\n');
+    }).catch(()=>'');
+  return fontCssPromise;
+}
+function wrapText(text,maxW,font){
+  const ctx=document.createElement('canvas').getContext('2d');
+  ctx.font=font;
+  const lines=[];let line='';
+  text.split(' ').forEach(word=>{
+    const test=line?line+' '+word:word;
+    if(line&&ctx.measureText(test).width>maxW){lines.push(line);line=word;}
+    else line=test;
+  });
+  if(line) lines.push(line);
+  return lines;
+}
+function styledClone(svg){
+  const clone=svg.cloneNode(true);
+  const src=[svg,...svg.querySelectorAll('*')];
+  const dst=[clone,...clone.querySelectorAll('*')];
+  const props=['fill','stroke','stroke-width','stroke-dasharray','stroke-linecap','opacity','font-family','font-size','font-weight'];
+  src.forEach((el,i)=>{
+    const cs=getComputedStyle(el);
+    props.forEach(p=>{
+      let v=cs.getPropertyValue(p);
+      if(!v||v==='none') return;
+      if(p==='font-family') v='Nunito, sans-serif';
+      dst[i].setAttribute(p,v);
+    });
+  });
+  clone.setAttribute('xmlns',NS);
+  return clone;
+}
+function svgEl(name,attrs,text){
+  const el=document.createElementNS(NS,name);
+  Object.entries(attrs).forEach(([k,v])=>el.setAttribute(k,v));
+  if(text!=null) el.textContent=text;
+  return el;
+}
+async function chartPng(card){
+  const chart=card.querySelector('.chart svg');
+  if(!chart) throw new Error('Chart is not ready');
+  const fontCss=await ensureFonts();
+  const root=document.documentElement;
+  const prev=root.getAttribute('data-theme');
+  root.setAttribute('data-theme','light');
+  void root.offsetWidth;
+  const w=chart.clientWidth||600;
+  const h=chart.clientHeight||chart.viewBox.baseVal.height||220;
+  const plot=styledClone(chart);
+  const legend=[...card.querySelectorAll('.legend span')].map(span=>{
+    const sw=span.querySelector('i');
+    return {label:span.textContent.trim(),color:sw?getComputedStyle(sw).backgroundColor:'#FF5E36'};
+  });
+  root.setAttribute('data-theme',prev==null?'':prev);
+  if(prev==null) root.removeAttribute('data-theme');
+  plot.setAttribute('x',0);plot.setAttribute('y',0);plot.setAttribute('width',w);plot.setAttribute('height',h);
+  const title=(card.querySelector('h3')||{}).textContent||'chart';
+  const titleLines=wrapText(title,Math.max(240,w),'600 16px Poppins, sans-serif');
+  const titleTop=22, titleStep=22, legendY=titleTop+(titleLines.length-1)*titleStep+28, plotY=legend.length?legendY+22:legendY;
+  const outW=w, outH=plotY+h+8;
+  const out=svgEl('svg',{xmlns:NS,width:outW,height:outH,viewBox:`0 0 ${outW} ${outH}`});
+  const style=svgEl('style',{});
+  style.textContent=fontCss+'\ntext{font-family:Nunito,sans-serif}';
+  out.appendChild(style);
+  titleLines.forEach((line,i)=>out.appendChild(svgEl('text',{x:0,y:titleTop+i*titleStep,fill:'#0b0b0b','font-family':'Poppins, sans-serif','font-size':16,'font-weight':600},line)));
+  const measure=document.createElement('canvas').getContext('2d');
+  measure.font='13px Nunito, sans-serif';
+  let lx=0;
+  legend.forEach(item=>{
+    out.appendChild(svgEl('rect',{x:lx,y:legendY-10,width:10,height:10,rx:2,fill:item.color}));
+    out.appendChild(svgEl('text',{x:lx+16,y:legendY,fill:'#5f5e5a','font-family':'Nunito, sans-serif','font-size':13},item.label));
+    lx+=16+Math.ceil(measure.measureText(item.label).width)+18;
+  });
+  const holder=svgEl('svg',{x:0,y:plotY,width:w,height:h});
+  holder.appendChild(plot);
+  out.appendChild(holder);
+  const xml=new XMLSerializer().serializeToString(out);
+  const url=URL.createObjectURL(new Blob([xml],{type:'image/svg+xml;charset=utf-8'}));
+  const scale=2;
+  const png=await new Promise((resolve,reject)=>{
+    const img=new Image();
+    img.onload=()=>{
+      const canvas=document.createElement('canvas');
+      canvas.width=outW*scale;canvas.height=outH*scale;
+      const ctx=canvas.getContext('2d');
+      ctx.drawImage(img,0,0,canvas.width,canvas.height);
+      URL.revokeObjectURL(url);
+      canvas.toBlob(b=>b?resolve(b):reject(new Error('Could not create PNG')),'image/png');
+    };
+    img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error('Could not draw chart'));};
+    img.src=url;
+  });
+  return {png,name:title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,80)+'.png'};
+}
+document.querySelectorAll('.pay .card').forEach(card=>{
+  if(!card.querySelector('.chart')) return;
+  const h3=card.querySelector('h3');
+  const head=document.createElement('div');
+  head.className='cardhead';
+  h3.parentNode.insertBefore(head,h3);
+  const btn=document.createElement('button');
+  btn.type='button';btn.className='dl';btn.textContent='Download';
+  btn.title='Download this chart as a PNG with a transparent background';
+  head.append(h3,btn);
+  btn.addEventListener('click',async()=>{
+    btn.disabled=true;const label=btn.textContent;btn.textContent='Preparing…';
+    try{
+      const {png,name}=await chartPng(card);
+      const a=document.createElement('a');
+      a.href=URL.createObjectURL(png);a.download=name;a.click();
+      setTimeout(()=>URL.revokeObjectURL(a.href),1500);
+    }catch(err){btn.title=err.message||'Download failed';}
+    btn.textContent=label;btn.disabled=false;
+  });
+});
+ensureFonts();
 })();
 </script>
 </body></html>

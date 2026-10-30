@@ -47,6 +47,8 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 .pay .chart text.lbl{fill:var(--color-fg)}
 .pay .chart text.axis-title{font-weight:600}
 .pay .chart .mark{pointer-events:none}
+.pay .chart text.mark-word{font-weight:700;font-size:12px;fill:#310A5E;font-variant-numeric:normal}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .pay .chart text.mark-word{fill:#c9b3e6}}
 .pay .legend{display:flex;flex-wrap:wrap;gap:var(--cds-gap-md);font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
 .pay .legend span{display:inline-flex;align-items:center;gap:6px}
 .pay .legend i{display:inline-block;width:10px;height:10px;border-radius:2px}
@@ -184,12 +186,15 @@ function measure(svg,texts){let m=0;const g=svg.append('g');texts.forEach(t=>{co
 const CARROT_BODY='M 364.129 351.908 C 335.222 405.225 292.708 502.973 272.713 571.85 C 259.86 611.123 252.001 650.698 254.129 690.88 C 255.692 711.001 271.954 722.002 297.279 718.534 C 312.616 714.459 328.313 705.399 344.01 696.34 C 412.865 645.449 477.801 579.301 533.108 507.561 C 555.232 478.865 567.368 449.563 554.537 418.744 C 546.341 393.213 488.322 338.99 448.374 336.564 C 413.421 334.441 429.76 345.881 364.129 351.908 Z';
 const CARROT_LEAVES=['M 447.351 199.046 C 457.351 184.046 496.431 162.104 501.431 187.104 C 506.431 227.104 495 304.787 470 334.787 L 435.196 312.385 L 447.351 199.046 Z','M 525 240 C 540 220 590.511 193.058 610.511 208.058 C 630.511 223.058 635.034 269.523 620.034 289.523 C 600.034 314.523 513.764 339.293 483.764 349.293 L 525 240 Z','M 565 374.08 C 585 384.08 615 365 630 350 C 645 335 635.937 316.201 615.937 316.201 C 590.937 316.201 532.316 346.695 517.316 361.695 L 565 374.08 Z'];
 function mark(svg,W,H,pos){
-  const hgt=22,wid=hgt*406/586,x=Math.max(0,W-wid-2),y=pos==='top'?1:Math.max(0,H-hgt-1);
-  const g=svg.append('g').attr('class','mark').attr('transform',`translate(${x},${y})`).attr('opacity',.92);
+  const hgt=22,wid=hgt*406/586,gap=4;
+  const g=svg.append('g').attr('class','mark').attr('opacity',.92);
   const s=g.append('svg').attr('viewBox','247 157 406 586').attr('width',wid).attr('height',hgt);
   s.append('path').attr('fill','#FF5E36').attr('d',CARROT_BODY);
   const leaves=s.append('g').attr('fill','#66BB6A');
   CARROT_LEAVES.forEach(d=>leaves.append('path').attr('d',d));
+  const label=g.append('text').attr('class','mark-word').text('karimi').attr('x',wid+gap).attr('y',16);
+  const total=wid+gap+label.node().getComputedTextLength();
+  g.attr('transform',`translate(${Math.max(0,W-total-2)},${pos==='top'?1:Math.max(0,H-hgt-1)})`);
 }
 function axisTitles(svg,o){
   if(o.xTitle) svg.append('text').attr('class','axis-title').attr('text-anchor','middle').attr('x',o.x).attr('y',o.xY).text(o.xTitle);

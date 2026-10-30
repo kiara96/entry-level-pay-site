@@ -8,6 +8,7 @@
 :root{
   --font-text:"Nunito",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --font-title:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --font-anthropic-sans:var(--font-text);
   --cds-font-size-caption:.8125rem;--cds-font-size-body:1rem;--cds-font-size-heading:1.0625rem;--cds-font-size-title:2rem;
   --cds-font-weight-medium:600;
   --cds-gap-xs:4px;--cds-gap-sm:8px;--cds-gap-md:16px;--cds-gap-lg:24px;--cds-gap-xl:40px;
@@ -66,6 +67,17 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 .pay .dl{flex:none;margin-top:1px;appearance:none;background:transparent;border:1px solid var(--color-border-line);border-radius:999px;color:var(--color-fg);font-family:var(--font-text);font-size:var(--cds-font-size-caption);line-height:1.2;padding:5px 10px;cursor:pointer}
 .pay .dl:hover{border-color:var(--color-fg-muted)}
 .pay .dl:disabled{opacity:.55;cursor:progress}
+#funcEmpChart{position:relative}
+.fe-grid{display:grid;gap:28px}
+.fe-panel{min-width:0}
+.fe-panel h4{margin:0;font-family:var(--font-title);font-size:var(--cds-font-size-heading);font-weight:var(--cds-font-weight-medium);color:var(--color-fg)}
+.fe-sub{margin:2px 0 4px;font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
+.fe-panel svg{display:block;overflow:visible}
+.fe-t{font-family:var(--font-anthropic-sans);font-size:11px;fill:var(--color-fg-muted);font-variant-numeric:tabular-nums}
+.fe-t.lbl{fill:var(--color-fg)}
+.fe-sec{font-family:var(--font-anthropic-sans);font-size:10px;font-weight:600;letter-spacing:.06em;fill:var(--color-fg-muted)}
+.fe-tt{position:absolute;pointer-events:none;z-index:5;background:var(--cds-surface-popover);border:1px solid var(--cds-border);border-radius:var(--cds-radius);box-shadow:var(--cds-shadow-popover);padding:6px 10px;font-size:var(--cds-font-size-caption);color:var(--color-fg);white-space:nowrap}
+.fe-tt .fe-h{color:var(--cds-text-secondary);margin-bottom:2px}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 </head><body><div class="wrap">
@@ -119,6 +131,12 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
       </div>
     </div>
     <div class="card" style="margin-top:var(--cds-gap-md)">
+      <h3>Who pays the most for junior software, sales and operations roles</h3>
+      <p class="note">Dot: median pay gap against the junior median in each posting's own country, counting each employer once. Band: 80% bootstrap interval. Groups with at least 8 employers posting salaried junior roles in that function.</p>
+      <p class="note">Industry is the employer's industry, not the role's: a developer at a supermarket counts under Commerce &amp; Retail. The tech-industry sales premium and the startup sales premium partly share the same companies (12 of the 23 AI/software sales employers are startups). Sales pay ranges may include commission (on-target earnings), which can inflate startup sales figures. Climate &amp; energy rests on 9–14 employers per function; read its wide bands as uncertainty.</p>
+      <div class="chart" id="funcEmpChart" data-source="funcemp"></div>
+    </div>
+    <div class="card" style="margin-top:var(--cds-gap-md)">
       <h3>Pay vs the country median, by employer industry</h3>
       <p class="note">All role types together, each posting compared with the median for its country and role type. Research organisations pay the most; consumer, lifestyle and hospitality employers pay the least.</p>
       <div class="chart" id="indChart" data-source="industries"></div>
@@ -145,7 +163,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 </div>
 <script>
 window.dash=(function(){
-  const files={kpi:'kpi.csv',hist:'salary_histogram.csv',countries:'countries.csv',functions:'functions.csv',industries:'industries.csv',companyType:'company_type.csv',companySize:'company_size.csv'};
+  const files={kpi:'kpi.csv',hist:'salary_histogram.csv',countries:'countries.csv',functions:'functions.csv',industries:'industries.csv',companyType:'company_type.csv',companySize:'company_size.csv',funcemp:'function_pay_by_employer.csv'};
   const store={};Object.keys(files).forEach(k=>store[k]={status:'loading',data:[]});
   const fns=[];const run=()=>fns.forEach(f=>f());
   Promise.all(Object.entries(files).map(([k,f])=>d3.csv('data/'+f).then(r=>{store[k]={status:'ok',data:r,columns:r.columns};}).catch(()=>{store[k]={status:'error',data:[]};}))).then(run);
@@ -198,6 +216,7 @@ function mark(svg,W,H,pos){
   const total=wid+gap+label.node().getComputedTextLength();
   g.attr('transform',`translate(${Math.max(0,W-total-2)},${pos==='top'?1:Math.max(0,H-hgt-1)})`);
 }
+window.karimiMark=mark;
 function axisTitles(svg,o){
   if(o.xTitle) svg.append('text').attr('class','axis-title').attr('text-anchor','middle').attr('x',o.x).attr('y',o.xY).text(o.xTitle);
   if(o.yTitle) svg.append('text').attr('class','axis-title').attr('text-anchor','middle').attr('transform',`translate(${o.yX},${o.y}) rotate(-90)`).text(o.yTitle);
@@ -435,17 +454,46 @@ function svgEl(name,attrs,text){
   if(text!=null) el.textContent=text;
   return el;
 }
+function panelSheet(box){
+  const panels=[...box.querySelectorAll('.fe-panel')];
+  if(panels.length<2) return null;
+  const cols=getComputedStyle(box.querySelector('.fe-grid')).gridTemplateColumns.trim().split(/\s+/).filter(Boolean).length;
+  const gap=28, head=44;
+  const items=panels.map(p=>{
+    const svg=[...p.querySelectorAll('svg')].find(s=>!s.parentElement.closest('svg'));
+    return {title:p.querySelector('h4').textContent,sub:p.querySelector('.fe-sub').textContent,node:styledClone(svg),w:svg.clientWidth||600,h:svg.clientHeight||svg.viewBox.baseVal.height||200};
+  });
+  const colW=Math.max(...items.map(i=>i.w));
+  const blockH=head+Math.max(...items.map(i=>i.h));
+  const rows=Math.ceil(items.length/cols);
+  const outW=cols*colW+(cols-1)*gap;
+  const outH=rows*blockH+(rows-1)*gap;
+  const sheet=svgEl('svg',{xmlns:NS,width:outW,height:outH,viewBox:`0 0 ${outW} ${outH}`});
+  items.forEach((item,i)=>{
+    const c=i%cols, r=Math.floor(i/cols);
+    const x=c*(colW+gap), y=r*(blockH+gap);
+    sheet.appendChild(svgEl('text',{x,y:y+16,fill:'#0b0b0b','font-family':'Poppins, sans-serif','font-size':16,'font-weight':600},item.title));
+    sheet.appendChild(svgEl('text',{x,y:y+34,fill:'#5f5e5a','font-family':'Nunito, sans-serif','font-size':12},item.sub));
+    const holder=svgEl('svg',{x,y:y+head,width:item.w,height:item.h});
+    item.node.setAttribute('x',0);item.node.setAttribute('y',0);item.node.setAttribute('width',item.w);item.node.setAttribute('height',item.h);
+    holder.appendChild(item.node);
+    sheet.appendChild(holder);
+  });
+  return {node:sheet,w:outW,h:outH};
+}
 async function chartPng(card){
-  const chart=card.querySelector('.chart svg');
+  const box=card.querySelector('.chart');
+  const chart=box&&box.querySelector('svg');
   if(!chart) throw new Error('Chart is not ready');
   const fontCss=await ensureFonts();
   const root=document.documentElement;
   const prev=root.getAttribute('data-theme');
   root.setAttribute('data-theme','light');
   void root.offsetWidth;
-  const w=chart.clientWidth||600;
-  const h=chart.clientHeight||chart.viewBox.baseVal.height||220;
-  const plot=styledClone(chart);
+  const sheet=panelSheet(box);
+  const w=sheet?sheet.w:(chart.clientWidth||600);
+  const h=sheet?sheet.h:(chart.clientHeight||chart.viewBox.baseVal.height||220);
+  const plot=sheet?sheet.node:styledClone(chart);
   const legend=[...card.querySelectorAll('.legend span')].map(span=>{
     const sw=span.querySelector('i');
     return {label:span.textContent.trim(),color:sw?getComputedStyle(sw).backgroundColor:'#FF5E36'};
@@ -515,4 +563,5 @@ document.querySelectorAll('.pay .card').forEach(card=>{
 ensureFonts();
 })();
 </script>
+<script src="function_pay_chart.js"></script>
 </body></html>

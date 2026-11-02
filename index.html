@@ -78,6 +78,16 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 .fe-sec{font-family:var(--font-anthropic-sans);font-size:10px;font-weight:600;letter-spacing:.06em;fill:var(--color-fg-muted)}
 .fe-tt{position:absolute;pointer-events:none;z-index:5;background:var(--cds-surface-popover);border:1px solid var(--cds-border);border-radius:var(--cds-radius);box-shadow:var(--cds-shadow-popover);padding:6px 10px;font-size:var(--cds-font-size-caption);color:var(--color-fg);white-space:nowrap}
 .fe-tt .fe-h{color:var(--cds-text-secondary);margin-bottom:2px}
+.pay .chart text.ac-ink{fill:var(--color-fg);font-size:12px}
+.pay .chart text.ac-title{fill:var(--color-fg);font-family:var(--font-title);font-size:13px;font-weight:600}
+.pay .chart text.ac-sub{fill:var(--cds-text-secondary);font-size:11px}
+.pay .chart text.ac-muted{fill:#898781;font-size:11px}
+.pay .chart text.ac-onbar{font-size:11px;font-weight:700;fill:#ffffff}
+.pay .chart text.ac-onbar.ink{fill:#0b0b0b}
+.pay .chart text.ac-kicker{fill:var(--cds-text-secondary);font-size:11px;font-weight:700;letter-spacing:.04em}
+.pay .chart text.ac-quote{fill:var(--color-fg);font-size:14px}
+.pay .chart rect.ac-card{fill:#ffffff;stroke:#ecebe6}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .pay .chart rect.ac-card{fill:#1a1a19;stroke:#2c2c2a}}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 </head><body><div class="wrap">
@@ -158,12 +168,36 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
       <div class="chart" id="sizeChart" data-source="companySize"></div>
     </div>
   </section>
+
+  <section id="accomplishments">
+    <h2>Beyond the CV</h2>
+    <div class="card">
+      <h3>Only 1 in 59 entry-level postings asks for projects, portfolios, publications or extracurriculars</h3>
+      <p class="note">940 of 55,723 unique internship and junior postings ask candidates for at least one of them. Mentions that only describe the company (perks, awards it has won) are excluded.</p>
+      <div class="chart" id="accRareChart" data-source="accTypes accStrength accLocation"></div>
+    </div>
+    <div class="card" style="margin-top:var(--cds-gap-md)">
+      <h3>Interns, startups, small companies and tech employers ask the most</h3>
+      <p class="note">Share of unique postings asking for at least one of: portfolio, personal projects, extracurriculars, hackathons/competitions, GitHub/open source, publications, achievements. Groups with at least 300 postings. The dashed line is the average across all postings (1.7%).</p>
+      <div class="chart" id="accWhereChart" data-source="accWhere"></div>
+    </div>
+    <div class="card" style="margin-top:var(--cds-gap-md)">
+      <h3>Designers are asked for portfolios, developers for projects and code, researchers for publications</h3>
+      <p class="note">Left: share of postings asking for anything in this list. Right: what those postings ask for (one posting can ask for several). Job families from keywords in the job title. Families with at least 10 postings asking.</p>
+      <div class="chart" id="accFamChart" data-source="accFamilies"></div>
+    </div>
+    <div class="card" style="margin-top:var(--cds-gap-md)">
+      <h3>How employers phrase it</h3>
+      <p class="note">Examples from the postings. Most present these as one route among several ("internships, university projects or personal projects"), not as a requirement on their own.</p>
+      <div class="chart" id="accQuoteChart" data-source="accQuotes"></div>
+    </div>
+  </section>
 </div>
 
 </div>
 <script>
 window.dash=(function(){
-  const files={kpi:'kpi.csv',hist:'salary_histogram.csv',countries:'countries.csv',functions:'functions.csv',industries:'industries.csv',companyType:'company_type.csv',companySize:'company_size.csv',funcemp:'function_pay_by_employer.csv'};
+  const files={kpi:'kpi.csv',hist:'salary_histogram.csv',countries:'countries.csv',functions:'functions.csv',industries:'industries.csv',companyType:'company_type.csv',companySize:'company_size.csv',funcemp:'function_pay_by_employer.csv',accTypes:'chart1_types.csv',accStrength:'chart1_strength.csv',accLocation:'chart1_location.csv',accWhere:'chart2_where.csv',accFamilies:'chart3_families.csv',accQuotes:'chart4_quotes.csv'};
   const store={};Object.keys(files).forEach(k=>store[k]={status:'loading',data:[]});
   const fns=[];const run=()=>fns.forEach(f=>f());
   Promise.all(Object.entries(files).map(([k,f])=>d3.csv('data/'+f).then(r=>{store[k]={status:'ok',data:r,columns:r.columns};}).catch(()=>{store[k]={status:'error',data:[]};}))).then(run);
@@ -564,4 +598,5 @@ ensureFonts();
 })();
 </script>
 <script src="function_pay_chart.js"></script>
+<script src="accomplishments_charts.js"></script>
 </body></html>

@@ -89,14 +89,70 @@
   function drawFamilies(){
     const box=document.getElementById('accFamChart'); if(!box) return;
     if(!ok('accFamilies')){ if(dash.data('accFamilies').status==='error') fail('accFamChart'); return; }
+    const COL={
+      'Portfolio':'#FF5E36','Personal projects':'#310A5E','Extracurriculars':'#FF8A6E',
+      'Hackathons & competitions':'#6B3D8C','Code / open source':'#C2411F','Publications':'#a894c9'
+    };
+    const light=new Set(['#ff8a6e','#a894c9']);
     const rows=dash.data('accFamilies').data.map(r=>{
       const counts=TYPES.map(t=>+r[t]||0), sum=counts.reduce((a,b)=>a+b,0)||1;
-      return {family:r.family, ads:+r.ads, asked:+r.asked, rate:+r.rate, mix:TYPES.map((t,i)=>({t,v:counts[i]/sum})).filter(m=>m.v>0)};
+      return {family:r.family, ads:+r.ads, asked:+r.asked, rate:+r.rate, parts:TYPES.map((t,i)=>({t,v:counts[i]/sum}))};
     }).filter(r=>r.asked>=10&&r.family!=='Other').sort((a,b)=>b.rate-a.rate);
-    bars(box, rows.map(r=>({
-      label:r.family, value:r.rate, color:ORANGE,
-      tip:[{c:ORANGE, v:`${num(r.asked)} of ${num(r.ads)}`, n:'ads ask'}].concat(r.mix.map(m=>({v:Math.round(m.v*100)+'%', n:m.t})))
-    })), {fmt:v=>Math.round(v*100)+'%', axisTop:true, xTitle:'Share of ads', yTitle:'Job family'});
+    box.textContent='';
+    const W=box.clientWidth||1000, narrow=W<860, gap=28, rh=28, top=36, legendH=44;
+    const leftW=narrow?W:Math.round(W*0.46), rightX=narrow?0:leftW+gap, rightW=narrow?W:W-rightX;
+    const plotH=top+rows.length*rh+22;
+    const H=narrow?plotH+16+plotH+legendH:plotH+legendH;
+    const svg=d3.select(box).append('svg').attr('width','100%').attr('viewBox',`0 0 ${W} ${H}`).attr('height',H);
+    const meas=t=>{const n=svg.append('text').text(t); const w=n.node().getComputedTextLength(); n.remove(); return w;};
+    const labW=Math.ceil(d3.max(rows,r=>meas(r.family)))+12;
+    const valW=Math.ceil(meas('21% (115 of 1,053)'))+12;
+    svg.append('text').attr('class','axis-title').attr('x',0).attr('y',16).text('How often they ask');
+    const x=d3.scaleLinear([0,0.32],[labW,leftW-valW]);
+    [0.1,0.2].forEach(t=>svg.append('line').attr('x1',x(t)).attr('x2',x(t)).attr('y1',top).attr('y2',top+rows.length*rh).attr('stroke','var(--cds-chart-grid)'));
+    rows.forEach((r,i)=>{
+      const cy=top+i*rh+rh/2;
+      svg.append('text').attr('class','lbl').attr('text-anchor','end').attr('x',labW-8).attr('y',cy).attr('dy','0.35em').text(r.family);
+      svg.append('rect').attr('x',labW).attr('y',cy-8).attr('width',Math.max(1,x(r.rate)-labW)).attr('height',16).attr('rx',4).attr('fill',ORANGE);
+      svg.append('text').attr('x',x(r.rate)+6).attr('y',cy).attr('dy','0.35em').text(`${Math.round(r.rate*100)}% (${num(r.asked)} of ${num(r.ads)})`);
+      if(narrow){
+        const tip=[{c:ORANGE,v:`${num(r.asked)} of ${num(r.ads)}`,n:'ads ask'}].concat(r.parts.filter(p=>p.v>0).map(p=>({c:COL[p.t],v:Math.round(p.v*100)+'%',n:p.t})));
+        svg.append('rect').attr('x',0).attr('width',W).attr('y',top+i*rh).attr('height',rh).attr('fill','transparent')
+          .on('pointermove',ev=>window.payCharts.showTip(box,ev,r.family,tip))
+          .on('pointerleave',()=>window.payCharts.hideTip(box));
+      }
+    });
+    [0,0.1,0.2].forEach(t=>svg.append('text').attr('text-anchor','middle').attr('x',x(t)).attr('y',top+rows.length*rh+16).text(Math.round(t*100)+'%'));
+    const yShift=narrow?plotH+16:0;
+    svg.append('text').attr('class','axis-title').attr('x',rightX).attr('y',yShift+16).text('What they ask for (share of mentions)');
+    const x2=d3.scaleLinear([0,1],[rightX,rightX+rightW]);
+    [0.5].forEach(t=>svg.append('line').attr('x1',x2(t)).attr('x2',x2(t)).attr('y1',yShift+top).attr('y2',yShift+top+rows.length*rh).attr('stroke','var(--cds-chart-grid)'));
+    rows.forEach((r,i)=>{
+      const cy=yShift+top+i*rh+rh/2;
+      let acc=0;
+      r.parts.forEach(p=>{
+        if(p.v<=0) return;
+        const xA=x2(acc), xB=x2(acc+p.v);
+        svg.append('rect').attr('x',xA).attr('y',cy-8).attr('width',Math.max(0,xB-xA-1)).attr('height',16).attr('fill',COL[p.t]);
+        if(p.v>=0.12){
+          svg.append('text').attr('class',light.has(COL[p.t].toLowerCase())?'ac-onbar ink':'ac-onbar').attr('text-anchor','middle')
+            .attr('x',(xA+xB)/2).attr('y',cy).attr('dy','0.35em').text(Math.round(p.v*100)+'%');
+        }
+        acc+=p.v;
+      });
+      const tip=[{c:ORANGE,v:`${num(r.asked)} of ${num(r.ads)}`,n:'ads ask'}].concat(r.parts.filter(p=>p.v>0).map(p=>({c:COL[p.t],v:Math.round(p.v*100)+'%',n:p.t})));
+      svg.append('rect').attr('x',0).attr('width',W).attr('y',yShift+top+i*rh).attr('height',rh).attr('fill','transparent')
+        .on('pointermove',ev=>window.payCharts.showTip(box,ev,r.family,tip))
+        .on('pointerleave',()=>window.payCharts.hideTip(box));
+    });
+    [0,0.5,1].forEach(t=>svg.append('text').attr('text-anchor',t===1?'end':'middle').attr('x',t===1?rightX+rightW-2:x2(t)).attr('y',yShift+top+rows.length*rh+16).text(Math.round(t*100)+'%'));
+    const ly=H-28;
+    TYPES.forEach((t,i)=>{
+      const col=i%3, row=Math.floor(i/3), lx=col*(W/3), yy=ly+row*16;
+      svg.append('rect').attr('x',lx).attr('y',yy-9).attr('width',10).attr('height',10).attr('rx',2).attr('fill',COL[t]);
+      svg.append('text').attr('x',lx+16).attr('y',yy).text(t);
+    });
+    if(window.karimiMark) window.karimiMark(svg,W,H,'top');
   }
 
   function drawQuotes(){

@@ -78,6 +78,8 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 .fe-sec{font-family:var(--font-anthropic-sans);font-size:10px;font-weight:600;letter-spacing:.06em;fill:var(--color-fg-muted)}
 .fe-tt{position:absolute;pointer-events:none;z-index:5;background:var(--cds-surface-popover);border:1px solid var(--cds-border);border-radius:var(--cds-radius);box-shadow:var(--cds-shadow-popover);padding:6px 10px;font-size:var(--cds-font-size-caption);color:var(--color-fg);white-space:nowrap}
 .fe-tt .fe-h{color:var(--cds-text-secondary);margin-bottom:2px}
+.pay .chart text.ac-onbar{font-size:11px;font-weight:700;fill:#ffffff}
+.pay .chart text.ac-onbar.ink{fill:#0b0b0b}
 #accomplishments .chart{min-height:0}
 #accomplishments h4{font-family:var(--font-title);font-size:var(--cds-font-size-heading);font-weight:600;margin:18px 0 0}
 .ac-quotes{display:grid;grid-template-columns:1fr 1fr;gap:14px}
@@ -173,9 +175,9 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
       <h3>Only 1 in 59 entry-level postings asks for projects, portfolios, publications or extracurriculars</h3>
       <p class="note">940 of 55,723 unique internship and junior postings ask candidates for at least one of them. Mentions that only describe the company (perks, awards it has won) are excluded. Awards and scholarships: 1 posting, not shown.</p>
       <div class="chart" id="accRareChart" data-source="accTypes"></div>
-      <h4>How firmly it is asked (excl. publications)</h4>
+      <h4>How firmly it is asked</h4>
       <div class="chart" id="accStrengthChart" data-source="accStrength"></div>
-      <h4>Where it appears in the ad (excl. publications)</h4>
+      <h4>Where it appears in the ad</h4>
       <div class="chart" id="accLocationChart" data-source="accLocation"></div>
     </div>
     <div class="card" style="margin-top:var(--cds-gap-md)">
@@ -196,7 +198,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
     </div>
     <div class="card" style="margin-top:var(--cds-gap-md)">
       <h3>Designers are asked for portfolios, developers for projects and code, researchers for publications</h3>
-      <p class="note">Share of postings in each job family that ask for anything in this list. Hover a bar to see what they ask for. Job families come from keywords in the job title. Families with at least 10 postings asking.</p>
+      <p class="note">Left: share of postings asking for anything in this list. Right: what those postings ask for (one posting can ask for several). Job families from keywords in the job title. Families with at least 10 postings asking.</p>
       <div class="chart" id="accFamChart" data-source="accFamilies"></div>
     </div>
     <div class="card" style="margin-top:var(--cds-gap-md)">
@@ -297,7 +299,7 @@ function hbars(box,rows,o){
   axisTitles(svg,{xTitle:o.xTitle,yTitle:o.yTitle,x:(x.range()[0]+x.range()[1])/2,xY:12,yX:8,y:(top+H)/2});
   mark(svg,W,H,'top');
 }
-window.payCharts={hbars};
+window.payCharts={hbars,showTip,hideTip};
 
 dash.onData(()=>{
   // KPI fills
@@ -636,5 +638,5 @@ ensureFonts();
 })();
 </script>
 <script src="function_pay_chart.js"></script>
-<script src="accomplishments_charts.js?v=3"></script>
+<script src="accomplishments_charts.js?v=4"></script>
 </body></html>

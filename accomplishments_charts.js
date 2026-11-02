@@ -1,9 +1,9 @@
 // Four charts: what entry-level postings ask for beyond the CV.
 (function(){
   const COL={
-    'Portfolio':'#2a78d6','Personal projects':'#eb6834','Extracurriculars':'#1baf7a',
-    'Hackathons & competitions':'#eda100','Code / open source':'#e87ba4',
-    'Publications':'#6250d6','Achievements':'#c3c2b7'
+    'Portfolio':'#FF5E36','Personal projects':'#310A5E','Extracurriculars':'#FF8A6E',
+    'Hackathons & competitions':'#6B3D8C','Code / open source':'#C2411F',
+    'Publications':'#a894c9','Achievements':'#c9b3e6'
   };
   const LAB={
     'Portfolio':'Portfolio / work samples',
@@ -27,7 +27,7 @@
   const pct1=v=>(v*100).toFixed(1)+'%';
   const pct2=v=>(v*100).toFixed(2)+'%';
   const num=v=>Number(v).toLocaleString('en-US');
-  const onFill=hex=>hex.toLowerCase()==='#eda100'||hex.toLowerCase()==='#c3c2b7'?'#0b0b0b':'#ffffff';
+  const onFill=hex=>['#ff8a6e','#a894c9','#c9b3e6'].includes(String(hex).toLowerCase())?'#0b0b0b':'#ffffff';
 
   function ready(ids){
     const sts=ids.map(id=>dash.data(id));
@@ -74,7 +74,7 @@
     const x=d3.scaleLinear([0,d3.max(rows,r=>r.n)],[labW,leftW-valSample]);
     svg.append('text').attr('class','ac-title').attr('x',0).attr('y',16).text('Postings asking for each (one posting can ask for several)');
     rows.forEach((r,i)=>{
-      const y=top+i*rh, cy=y+rh/2-4, col=COL[r.cat]||'#2a78d6';
+      const y=top+i*rh, cy=y+rh/2-4, col=COL[r.cat]||'var(--s1)';
       const lines=LAB[r.cat].split('\n');
       lines.forEach((line,li)=>{
         svg.append('text').attr('class','ac-ink').attr('text-anchor','end').attr('x',labW-10)
@@ -88,13 +88,13 @@
       .text(`Awards and scholarships: ${awards?awards.n:1} posting. Not shown.`);
     const sx=narrow?0:leftW+gap, sy=narrow?leftH+8:0;
     stack(svg,sx,sy,rightW,strength,[
-      ['Listed, no weight given','#c3c2b7'],
-      ['Nice to have / "a plus"','#6d6c67'],
-      ['Required','#0b0b0b']
+      ['Listed, no weight given','#c9b3e6'],
+      ['Nice to have / "a plus"','#6B3D8C'],
+      ['Required','#FF5E36']
     ],'How firmly it is asked (excl. publications)');
     stack(svg,sx,sy+stackBlock,rightW,location,[
-      ['In the candidate profile','#c3c2b7'],
-      ['In the application instructions','#6d6c67']
+      ['In the candidate profile','#c9b3e6'],
+      ['In the application instructions','#310A5E']
     ],'Where it appears in the ad (excl. publications)');
     if(window.karimiMark) window.karimiMark(svg,W,H,'bottom');
   }
@@ -179,7 +179,7 @@
       g.append('line').attr('x1',x(AVG)).attr('x2',x(AVG)).attr('y1',top-2).attr('y2',bot).attr('stroke','#898781').attr('stroke-dasharray','4 3');
       p.rows.forEach((row,ri)=>{
         const cy=top+ri*rh+rh/2;
-        const col=p.wide&&row.share>0.03?'#eb6834':'#2a78d6';
+        const col=p.wide&&row.share>0.03?'var(--s2)':'var(--s1)';
         g.append('text').attr('class','ac-ink').attr('text-anchor','end').attr('x',labW-8).attr('y',cy).attr('dy','0.35em').text(row.label);
         g.append('rect').attr('x',labW).attr('y',cy-7).attr('width',Math.max(1,x(row.share)-labW)).attr('height',14).attr('fill',col);
         g.append('text').attr('class','ac-sub').attr('x',x(row.share)+6).attr('y',cy).attr('dy','0.35em').text(`${pct1(row.share)} · ${num(row.postings)} ads`);
@@ -218,7 +218,7 @@
     rows.forEach((r,i)=>{
       const cy=top+i*rh+rh/2;
       svg.append('text').attr('class','ac-ink').attr('text-anchor','end').attr('x',labW-8).attr('y',cy).attr('dy','0.35em').text(r.family);
-      svg.append('rect').attr('x',labW).attr('y',cy-7).attr('width',Math.max(1,x(r.rate)-labW)).attr('height',14).attr('fill','#2a78d6');
+      svg.append('rect').attr('x',labW).attr('y',cy-7).attr('width',Math.max(1,x(r.rate)-labW)).attr('height',14).attr('fill','var(--s1)');
       svg.append('text').attr('class','ac-sub').attr('x',x(r.rate)+6).attr('y',cy).attr('dy','0.35em').text(`${pct0(r.rate)} (${num(r.asked)} of ${num(r.ads)})`);
     });
     [0,0.1,0.2].forEach(t=>svg.append('text').attr('class','ac-muted').attr('text-anchor','middle').attr('x',x(t)).attr('y',top+rows.length*rh+16).text(pct0(t)));

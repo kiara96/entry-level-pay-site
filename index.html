@@ -78,16 +78,14 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 .fe-sec{font-family:var(--font-anthropic-sans);font-size:10px;font-weight:600;letter-spacing:.06em;fill:var(--color-fg-muted)}
 .fe-tt{position:absolute;pointer-events:none;z-index:5;background:var(--cds-surface-popover);border:1px solid var(--cds-border);border-radius:var(--cds-radius);box-shadow:var(--cds-shadow-popover);padding:6px 10px;font-size:var(--cds-font-size-caption);color:var(--color-fg);white-space:nowrap}
 .fe-tt .fe-h{color:var(--cds-text-secondary);margin-bottom:2px}
-.pay .chart text.ac-ink{fill:var(--color-fg);font-size:12px}
-.pay .chart text.ac-title{fill:var(--color-fg);font-family:var(--font-title);font-size:13px;font-weight:600}
-.pay .chart text.ac-sub{fill:var(--cds-text-secondary);font-size:11px}
-.pay .chart text.ac-muted{fill:#898781;font-size:11px}
-.pay .chart text.ac-onbar{font-size:11px;font-weight:700;fill:#ffffff}
-.pay .chart text.ac-onbar.ink{fill:#0b0b0b}
-.pay .chart text.ac-kicker{fill:var(--cds-text-secondary);font-size:11px;font-weight:700;letter-spacing:.04em}
-.pay .chart text.ac-quote{fill:var(--color-fg);font-size:14px}
-.pay .chart rect.ac-card{fill:#ffffff;stroke:#ecebe6}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .pay .chart rect.ac-card{fill:#1a1a19;stroke:#2c2c2a}}
+#accomplishments .chart{min-height:0}
+#accomplishments h4{font-family:var(--font-title);font-size:var(--cds-font-size-heading);font-weight:600;margin:18px 0 0}
+.ac-quotes{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:700px){.ac-quotes{grid-template-columns:1fr}}
+.ac-quote{background:var(--color-panel);border:1px solid var(--color-border-line);border-left:4px solid var(--s1);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.ac-quote b{font-family:var(--font-title);font-size:11px;font-weight:600;letter-spacing:.04em;color:var(--cds-text-secondary)}
+.ac-quote p{margin:0;font-size:15px;line-height:1.45}
+.ac-quote span{font-size:12px;color:#898781}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 </head><body><div class="wrap">
@@ -173,23 +171,38 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
     <h2>Beyond the CV</h2>
     <div class="card">
       <h3>Only 1 in 59 entry-level postings asks for projects, portfolios, publications or extracurriculars</h3>
-      <p class="note">940 of 55,723 unique internship and junior postings ask candidates for at least one of them. Mentions that only describe the company (perks, awards it has won) are excluded.</p>
-      <div class="chart" id="accRareChart" data-source="accTypes accStrength accLocation"></div>
+      <p class="note">940 of 55,723 unique internship and junior postings ask candidates for at least one of them. Mentions that only describe the company (perks, awards it has won) are excluded. Awards and scholarships: 1 posting, not shown.</p>
+      <div class="chart" id="accRareChart" data-source="accTypes"></div>
+      <h4>How firmly it is asked (excl. publications)</h4>
+      <div class="chart" id="accStrengthChart" data-source="accStrength"></div>
+      <h4>Where it appears in the ad (excl. publications)</h4>
+      <div class="chart" id="accLocationChart" data-source="accLocation"></div>
     </div>
     <div class="card" style="margin-top:var(--cds-gap-md)">
       <h3>Interns, startups, small companies and tech employers ask the most</h3>
       <p class="note">Share of unique postings asking for at least one of: portfolio, personal projects, extracurriculars, hackathons/competitions, GitHub/open source, publications, achievements. Groups with at least 300 postings. The dashed line is the average across all postings (1.7%).</p>
-      <div class="chart" id="accWhereChart" data-source="accWhere"></div>
+      <h4>By role type</h4>
+      <div class="chart" id="accWhereRole" data-source="accWhere"></div>
+      <h4>By company type</h4>
+      <div class="chart" id="accWhereType" data-source="accWhere"></div>
+      <h4>By company size</h4>
+      <div class="chart" id="accWhereSize" data-source="accWhere"></div>
+      <h4>By employer industry</h4>
+      <div class="chart" id="accWhereIndustry" data-source="accWhere"></div>
+      <h4>By country</h4>
+      <div class="chart" id="accWhereCountry" data-source="accWhere"></div>
+      <h4>By job function</h4>
+      <div class="chart" id="accWhereFunction" data-source="accWhere"></div>
     </div>
     <div class="card" style="margin-top:var(--cds-gap-md)">
       <h3>Designers are asked for portfolios, developers for projects and code, researchers for publications</h3>
-      <p class="note">Left: share of postings asking for anything in this list. Right: what those postings ask for (one posting can ask for several). Job families from keywords in the job title. Families with at least 10 postings asking.</p>
+      <p class="note">Share of postings in each job family that ask for anything in this list. Hover a bar to see what they ask for. Job families come from keywords in the job title. Families with at least 10 postings asking.</p>
       <div class="chart" id="accFamChart" data-source="accFamilies"></div>
     </div>
     <div class="card" style="margin-top:var(--cds-gap-md)">
       <h3>How employers phrase it</h3>
       <p class="note">Examples from the postings. Most present these as one route among several ("internships, university projects or personal projects"), not as a requirement on their own.</p>
-      <div class="chart" id="accQuoteChart" data-source="accQuotes"></div>
+      <div class="ac-quotes" id="accQuoteChart" data-source="accQuotes"></div>
     </div>
   </section>
 </div>
@@ -284,6 +297,7 @@ function hbars(box,rows,o){
   axisTitles(svg,{xTitle:o.xTitle,yTitle:o.yTitle,x:(x.range()[0]+x.range()[1])/2,xY:12,yX:8,y:(top+H)/2});
   mark(svg,W,H,'top');
 }
+window.payCharts={hbars};
 
 dash.onData(()=>{
   // KPI fills
@@ -515,6 +529,30 @@ function panelSheet(box){
   });
   return {node:sheet,w:outW,h:outH};
 }
+function multiSheet(card){
+  const boxes=[...card.querySelectorAll('.chart')].filter(b=>b.querySelector('svg'));
+  if(boxes.length<2) return null;
+  const gap=28, head=22;
+  const items=boxes.map(b=>{
+    const svg=[...b.querySelectorAll('svg')].find(s=>!s.parentElement.closest('svg'));
+    const prev=b.previousElementSibling;
+    const title=prev&&prev.tagName==='H4'?prev.textContent:'';
+    return {title,node:styledClone(svg),w:svg.clientWidth||600,h:svg.clientHeight||svg.viewBox.baseVal.height||200};
+  });
+  const w=Math.max(...items.map(i=>i.w));
+  let y=0;
+  const sheet=svgEl('svg',{xmlns:NS,width:w,height:10,viewBox:`0 0 ${w} 10`});
+  items.forEach(item=>{
+    if(item.title){sheet.appendChild(svgEl('text',{x:0,y:y+16,fill:'#0b0b0b','font-family':'Poppins, sans-serif','font-size':15,'font-weight':600},item.title)); y+=head;}
+    const holder=svgEl('svg',{x:0,y,width:item.w,height:item.h});
+    item.node.setAttribute('x',0);item.node.setAttribute('y',0);item.node.setAttribute('width',item.w);item.node.setAttribute('height',item.h);
+    holder.appendChild(item.node); sheet.appendChild(holder);
+    y+=item.h+gap;
+  });
+  const h=Math.max(0,y-gap);
+  sheet.setAttribute('height',h); sheet.setAttribute('viewBox',`0 0 ${w} ${h}`);
+  return {node:sheet,w,h};
+}
 async function chartPng(card){
   const box=card.querySelector('.chart');
   const chart=box&&box.querySelector('svg');
@@ -524,7 +562,7 @@ async function chartPng(card){
   const prev=root.getAttribute('data-theme');
   root.setAttribute('data-theme','light');
   void root.offsetWidth;
-  const sheet=panelSheet(box);
+  const sheet=panelSheet(box)||multiSheet(card);
   const w=sheet?sheet.w:(chart.clientWidth||600);
   const h=sheet?sheet.h:(chart.clientHeight||chart.viewBox.baseVal.height||220);
   const plot=sheet?sheet.node:styledClone(chart);
@@ -598,5 +636,5 @@ ensureFonts();
 })();
 </script>
 <script src="function_pay_chart.js"></script>
-<script src="accomplishments_charts.js"></script>
+<script src="accomplishments_charts.js?v=3"></script>
 </body></html>

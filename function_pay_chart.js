@@ -23,7 +23,7 @@
       return;
     }
     const rows=st.data.map(r=>({f:r.function,dim:r.dimension,cat:r.category,emp:+r.employers,posts:+r.postings,gap:+r.pay_gap,lo:+r.ci80_low,hi:+r.ci80_high,eur:+r.median_monthly_eur,ov:+r.function_overall_gap}));
-    const W=box.clientWidth||900, cols=W>=1500?3:1, gapX=28, pw=(W-gapX*(cols-1))/cols, narrow=pw<640;
+    const W=box.clientWidth||900, cols=W>=2400?3:1, gapX=28, pw=(W-gapX*(cols-1))/cols, narrow=pw<640;
     const grid=document.createElement('div');grid.className='fe-grid';grid.style.gridTemplateColumns=`repeat(${cols},minmax(0,1fr))`;box.appendChild(grid);
     // shared x scale across panels
     const xmin=Math.min(-0.2,d3.min(rows,r=>r.lo)), xmax=Math.max(0.6,d3.max(rows,r=>r.hi));
@@ -32,35 +32,35 @@
       const panel=document.createElement('div');panel.className='fe-panel';grid.appendChild(panel);
       const ov=rows.find(r=>r.f===f).ov;
       const h=document.createElement('h4');h.textContent=f;panel.appendChild(h);
-      const rh=narrow?168:104, secH=80, axisH=88;
+      const rh=narrow?80:52, secH=48, axisH=44;
       const H=SECTIONS.reduce((a,[d])=>a+secH+nMax[d]*rh,0)+axisH;
       const svg=d3.select(panel).append('svg').attr('width','100%').attr('viewBox',`0 0 ${pw} ${H}`).attr('height',H);
       const meas=t=>{const n=svg.append('text').attr('class','fe-t').text(t);const w=n.node().getComputedTextLength();n.remove();return w;};
-      const labW=narrow?4:Math.ceil(d3.max(rows,r=>meas(r.cat)))+16;
+      const labW=narrow?4:Math.ceil(d3.max(rows,r=>meas(r.cat)))+12;
       const longVal='+55% · €3.3k · 144 employers', shortVal='+55% · €3.3k';
       let compact=narrow||labW+meas(longVal)+40>pw*0.92;
-      const valW=Math.ceil(meas(compact?shortVal:longVal))+20;
-      const x=d3.scaleLinear([xmin,xmax],[labW,Math.max(labW+100,pw-valW)]).nice();
-      const nt=Math.max(3,Math.min(7,Math.floor((pw-valW-labW)/220)));
+      const valW=Math.ceil(meas(compact?shortVal:longVal))+14;
+      const x=d3.scaleLinear([xmin,xmax],[labW,Math.max(labW+80,pw-valW)]).nice();
+      const nt=Math.max(3,Math.min(7,Math.floor((pw-valW-labW)/140)));
       let y0=0;
       SECTIONS.forEach(([dim,title])=>{
         const s=rows.filter(r=>r.f===f&&r.dim===dim).sort((a,b)=>b.gap-a.gap);
         const g=svg.append('g').attr('transform',`translate(0,${y0})`);
-        g.append('text').attr('class','fe-sec').attr('x',0).attr('y',56).text(title.toUpperCase());
+        g.append('text').attr('class','fe-sec').attr('x',0).attr('y',30).text(title.toUpperCase());
         const top=secH, bot=secH+nMax[dim]*rh;
         x.ticks(nt).forEach(t=>g.append('line').attr('x1',x(t)).attr('x2',x(t)).attr('y1',top).attr('y2',bot).attr('stroke',t===0?'var(--cds-chart-axis)':'var(--cds-chart-grid)'));
         g.append('line').attr('x1',x(0)).attr('x2',x(0)).attr('y1',top).attr('y2',bot).attr('stroke','var(--cds-chart-axis)');
         g.append('line').attr('x1',x(ov)).attr('x2',x(ov)).attr('y1',top).attr('y2',bot).attr('stroke','var(--cds-chart-reference)').attr('stroke-dasharray','4 3');
         s.forEach((r,i)=>{
-          const cy=top+i*rh+(narrow?108:rh/2), col=r.gap>=0?POS:NEG;
+          const cy=top+i*rh+(narrow?54:rh/2), col=r.gap>=0?POS:NEG;
           const row=g.append('g');
-          if(narrow) row.append('text').attr('class','fe-t lbl').attr('x',0).attr('y',cy-52).text(r.cat);
-          else row.append('text').attr('class','fe-t lbl').attr('x',labW-12).attr('y',cy).attr('dy','0.35em').attr('text-anchor','end').text(r.cat);
-          row.append('line').attr('x1',x(r.lo)).attr('x2',x(r.hi)).attr('y1',cy).attr('y2',cy).attr('stroke',col).attr('stroke-width',16).attr('stroke-linecap','round').attr('opacity',.22);
-          if(dim==='industry') row.append('circle').attr('cx',x(r.gap)).attr('cy',cy).attr('r',12).attr('fill',col).attr('stroke','var(--color-panel)').attr('stroke-width',3);
-          else row.append('path').attr('d',d3.symbol(d3.symbolDiamond,320)()).attr('transform',`translate(${x(r.gap)},${cy})`).attr('fill',col).attr('stroke','var(--color-panel)').attr('stroke-width',3);
-          row.append('text').attr('class','fe-t').attr('x',x(Math.max(r.hi,r.gap))+16).attr('y',cy).attr('dy','0.35em').text(compact?`${pct(r.gap)} · ${eurK(r.eur)}`:`${pct(r.gap)} · ${eurK(r.eur)} · ${r.emp} employers`);
-          row.append('rect').attr('x',0).attr('width',pw).attr('y',cy-(narrow?108:rh/2)).attr('height',rh).attr('fill','transparent')
+          if(narrow) row.append('text').attr('class','fe-t lbl').attr('x',0).attr('y',cy-26).text(r.cat);
+          else row.append('text').attr('class','fe-t lbl').attr('x',labW-10).attr('y',cy).attr('dy','0.35em').attr('text-anchor','end').text(r.cat);
+          row.append('line').attr('x1',x(r.lo)).attr('x2',x(r.hi)).attr('y1',cy).attr('y2',cy).attr('stroke',col).attr('stroke-width',10).attr('stroke-linecap','round').attr('opacity',.22);
+          if(dim==='industry') row.append('circle').attr('cx',x(r.gap)).attr('cy',cy).attr('r',7).attr('fill',col).attr('stroke','var(--color-panel)').attr('stroke-width',2);
+          else row.append('path').attr('d',d3.symbol(d3.symbolDiamond,160)()).attr('transform',`translate(${x(r.gap)},${cy})`).attr('fill',col).attr('stroke','var(--color-panel)').attr('stroke-width',2);
+          row.append('text').attr('class','fe-t').attr('x',x(Math.max(r.hi,r.gap))+10).attr('y',cy).attr('dy','0.35em').text(compact?`${pct(r.gap)} · ${eurK(r.eur)}`:`${pct(r.gap)} · ${eurK(r.eur)} · ${r.emp} employers`);
+          row.append('rect').attr('x',0).attr('width',pw).attr('y',cy-(narrow?54:rh/2)).attr('height',rh).attr('fill','transparent')
             .on('pointermove',ev=>show(box,ev,[`${f} · ${r.cat}`,`${pct(r.gap)} vs country junior median`,`80% interval ${pct(r.lo)} to ${pct(r.hi)}`,`Median pay ${eur(r.eur)} a month`,`${r.emp} employers, ${r.posts} postings`]))
             .on('pointerleave',()=>hide(box));
         });

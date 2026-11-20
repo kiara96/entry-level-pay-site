@@ -28,7 +28,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 .pay a{color:var(--link)}
 .dash-skeleton{color:transparent;background:var(--color-border-line);border-radius:4px}
 
-.pay{font-family:var(--font-text);color:var(--color-fg);display:flex;flex-direction:column;gap:var(--cds-gap-xl);max-width:1200px;margin-inline:auto}
+.pay{font-family:var(--font-text);color:var(--color-fg);display:flex;flex-direction:column;gap:var(--cds-gap-xl);max-width:1600px;margin-inline:auto}
 .pay h1{font-family:var(--font-title);font-weight:600;font-size:var(--cds-font-size-title);margin:0;text-wrap:balance}
 .pay .lede{font-size:var(--cds-font-size-body);color:var(--color-fg-muted);margin:var(--cds-gap-sm) 0 0;max-width:70ch;line-height:1.5}
 .pay .lede b,.pay .note b{font-weight:600;color:var(--color-fg)}
@@ -37,26 +37,26 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 .pay .tile .lab{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
 .pay .tile .val{font-family:var(--font-title);font-weight:500;font-size:var(--cds-font-size-title);line-height:1.1}
 .pay .tile .sub{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
-.pay h2{font-family:var(--font-title);font-size:calc(var(--cds-font-size-heading) * 3);font-weight:var(--cds-font-weight-medium);margin:0 0 var(--cds-gap-sm)}
+.pay h2{font-family:var(--font-title);font-size:calc(var(--cds-font-size-heading) * 2);font-weight:var(--cds-font-weight-medium);margin:0 0 var(--cds-gap-sm)}
 .pay .grid{display:grid;grid-template-columns:1fr;gap:var(--cds-gap-md)}
 .pay .card{background:var(--color-panel);border:1px solid var(--color-border-line);border-radius:var(--cds-radius);padding:var(--cds-pad-lg);min-width:0;display:flex;flex-direction:column;gap:var(--cds-gap-sm)}
-.pay .card h3{font-family:var(--font-title);font-size:calc(var(--cds-font-size-heading) * 3);font-weight:var(--cds-font-weight-medium);margin:0}
+.pay .card h3{font-family:var(--font-title);font-size:calc(var(--cds-font-size-heading) * 2);font-weight:var(--cds-font-weight-medium);margin:0}
 .pay .note{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);margin:0;line-height:1.5;max-width:75ch}
 .pay .chart{position:relative;min-height:220px}
 .pay .chart svg{display:block;overflow:visible}
-.pay .chart text{font-family:var(--font-text);font-size:44px;fill:var(--color-fg-muted);font-variant-numeric:tabular-nums}
+.pay .chart text{font-family:var(--font-text);font-size:22px;fill:var(--color-fg-muted);font-variant-numeric:tabular-nums}
 .pay .chart text.lbl{fill:var(--color-fg)}
-.pay .chart text.axis-title{font-weight:600;font-size:33px}
+.pay .chart text.axis-title{font-weight:600;font-size:22px}
 .pay .chart .mark{pointer-events:none}
 .pay .chart text.mark-word{font-weight:700;font-size:12px;fill:#310A5E;font-variant-numeric:normal}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .pay .chart text.mark-word{fill:#c9b3e6}}
-.pay .legend{display:flex;flex-wrap:wrap;gap:16px 28px;font-size:calc(var(--cds-font-size-caption) * 4);color:var(--color-fg-muted);margin-top:12px}
-.pay .legend span{display:inline-flex;align-items:center;gap:10px}
-.pay .legend i{display:inline-block;width:28px;height:28px;border-radius:4px}
-.pay .tt{position:absolute;pointer-events:none;background:var(--cds-surface-popover);border:1px solid var(--cds-border);border-radius:var(--cds-radius);box-shadow:var(--cds-shadow-popover);padding:12px 16px;font-size:calc(var(--cds-font-size-caption) * 4);white-space:nowrap;z-index:5}
-.pay .tt .h{color:var(--cds-text-secondary);margin-bottom:6px}
-.pay .tt .r{display:flex;align-items:center;gap:10px}
-.pay .tt .r i{display:inline-block;width:28px;height:6px}
+.pay .legend{display:flex;flex-wrap:wrap;gap:12px 20px;font-size:calc(var(--cds-font-size-caption) * 2);color:var(--color-fg-muted);margin-top:8px}
+.pay .legend span{display:inline-flex;align-items:center;gap:8px}
+.pay .legend i{display:inline-block;width:16px;height:16px;border-radius:3px}
+.pay .tt{position:absolute;pointer-events:none;background:var(--cds-surface-popover);border:1px solid var(--cds-border);border-radius:var(--cds-radius);box-shadow:var(--cds-shadow-popover);padding:8px 12px;font-size:calc(var(--cds-font-size-caption) * 2);white-space:nowrap;z-index:5}
+.pay .tt .h{color:var(--cds-text-secondary);margin-bottom:4px}
+.pay .tt .r{display:flex;align-items:center;gap:8px}
+.pay .tt .r i{display:inline-block;width:16px;height:3px}
 .pay .tt .r b{font-weight:600}
 .pay [data-dash-source-state=refreshing]{opacity:.5;transition:opacity var(--cds-dur-slow)}
 .pay [data-dash-source-state=empty]{color:transparent}
@@ -70,24 +70,24 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 #funcEmpChart{position:relative}
 .fe-grid{display:grid;gap:28px}
 .fe-panel{min-width:0}
-.fe-panel h4{margin:0;font-family:var(--font-title);font-size:calc(var(--cds-font-size-heading) * 3);font-weight:var(--cds-font-weight-medium);color:var(--color-fg)}
+.fe-panel h4{margin:0;font-family:var(--font-title);font-size:calc(var(--cds-font-size-heading) * 2);font-weight:var(--cds-font-weight-medium);color:var(--color-fg)}
 .fe-panel svg{display:block;overflow:visible}
-.fe-t{font-family:var(--font-anthropic-sans);font-size:44px;fill:var(--color-fg-muted);font-variant-numeric:tabular-nums}
+.fe-t{font-family:var(--font-anthropic-sans);font-size:22px;fill:var(--color-fg-muted);font-variant-numeric:tabular-nums}
 .fe-t.lbl{fill:var(--color-fg)}
-.fe-sec{font-family:var(--font-anthropic-sans);font-size:30px;font-weight:600;letter-spacing:.06em;fill:var(--color-fg-muted)}
-.pay .chart text.fe-sec{font-size:30px}
-.fe-tt{position:absolute;pointer-events:none;z-index:5;background:var(--cds-surface-popover);border:1px solid var(--cds-border);border-radius:var(--cds-radius);box-shadow:var(--cds-shadow-popover);padding:12px 16px;font-size:calc(var(--cds-font-size-caption) * 4);color:var(--color-fg);white-space:nowrap}
+.fe-sec{font-family:var(--font-anthropic-sans);font-size:20px;font-weight:600;letter-spacing:.06em;fill:var(--color-fg-muted)}
+.pay .chart text.fe-sec{font-size:20px}
+.fe-tt{position:absolute;pointer-events:none;z-index:5;background:var(--cds-surface-popover);border:1px solid var(--cds-border);border-radius:var(--cds-radius);box-shadow:var(--cds-shadow-popover);padding:8px 12px;font-size:calc(var(--cds-font-size-caption) * 2);color:var(--color-fg);white-space:nowrap}
 .fe-tt .fe-h{color:var(--cds-text-secondary);margin-bottom:2px}
-.pay .chart text.ac-onbar{font-size:44px;font-weight:700;fill:#ffffff}
+.pay .chart text.ac-onbar{font-size:22px;font-weight:700;fill:#ffffff}
 .pay .chart text.ac-onbar.ink{fill:#0b0b0b}
 #accomplishments .chart{min-height:0}
-#accomplishments h4{font-family:var(--font-title);font-size:calc(var(--cds-font-size-heading) * 3);font-weight:600;margin:28px 0 0}
+#accomplishments h4{font-family:var(--font-title);font-size:calc(var(--cds-font-size-heading) * 2);font-weight:600;margin:22px 0 0}
 .ac-quotes{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 @media (max-width:700px){.ac-quotes{grid-template-columns:1fr}}
-.ac-quote{background:var(--color-panel);border:1px solid var(--color-border-line);border-left:4px solid var(--s1);border-radius:10px;padding:24px 28px;display:flex;flex-direction:column;gap:12px}
-.ac-quote b{font-family:var(--font-title);font-size:33px;font-weight:600;letter-spacing:.04em;color:var(--cds-text-secondary)}
-.ac-quote p{margin:0;font-size:60px;line-height:1.45}
-.ac-quote span{font-size:48px;color:#898781}
+.ac-quote{background:var(--color-panel);border:1px solid var(--color-border-line);border-left:4px solid var(--s1);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.ac-quote b{font-family:var(--font-title);font-size:22px;font-weight:600;letter-spacing:.04em;color:var(--cds-text-secondary)}
+.ac-quote p{margin:0;font-size:30px;line-height:1.45}
+.ac-quote span{font-size:24px;color:#898781}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 </head><body><div class="wrap">
@@ -272,30 +272,30 @@ function axisTitles(svg,o){
 // generic horizontal bar chart
 function hbars(box,rows,o){
   box.textContent='';
-  const W=box.clientWidth||600,bh=72,gap=28,top=o.axisTop?148:16,H=top+rows.length*(bh+gap)+56;
+  const W=box.clientWidth||600,bh=36,gap=14,top=o.axisTop?88:8,H=top+rows.length*(bh+gap)+28;
   const svg=d3.select(box).append('svg').attr('width','100%').attr('viewBox',`0 0 ${W} ${H}`).attr('height',H);
-  const lw=(o.yTitle?52:0)+Math.ceil(measure(svg,rows.map(r=>r.label)))+16;
-  const vw=Math.ceil(measure(svg,rows.map(r=>o.fmt(r.value))))+16;
+  const lw=(o.yTitle?28:0)+Math.ceil(measure(svg,rows.map(r=>r.label)))+12;
+  const vw=Math.ceil(measure(svg,rows.map(r=>o.fmt(r.value))))+12;
   const ext=d3.extent(rows.map(r=>r.value).concat([0]));
   const x=d3.scaleLinear([ext[0],ext[1]],[lw+(ext[0]<0?vw:0),W-vw]).nice();
   const y=(i)=>top+i*(bh+gap);
   if(o.axisTop){
-    const ticks=spacedTicks(x,200);
-    const ax=svg.append('g').attr('transform',`translate(0,${top-8})`).call(d3.axisTop(x).tickValues(ticks).tickFormat(o.tick||o.fmt).tickSize(0)).attr('font-size',null).attr('font-family',null);
+    const ticks=spacedTicks(x,120);
+    const ax=svg.append('g').attr('transform',`translate(0,${top-6})`).call(d3.axisTop(x).tickValues(ticks).tickFormat(o.tick||o.fmt).tickSize(0)).attr('font-size',null).attr('font-family',null);
     ax.select('.domain').remove();
-    svg.append('g').selectAll('line').data(ticks).join('line').attr('x1',d=>x(d)).attr('x2',d=>x(d)).attr('y1',top-2).attr('y2',H-40).attr('stroke','var(--cds-chart-grid)');
+    svg.append('g').selectAll('line').data(ticks).join('line').attr('x1',d=>x(d)).attr('x2',d=>x(d)).attr('y1',top-2).attr('y2',H-24).attr('stroke','var(--cds-chart-grid)');
   }
-  svg.append('line').attr('x1',x(0)).attr('x2',x(0)).attr('y1',top-2).attr('y2',H-40).attr('stroke','var(--cds-chart-axis)');
-  if(o.ref!=null){svg.append('line').attr('x1',x(o.ref)).attr('x2',x(o.ref)).attr('y1',top-2).attr('y2',H-40).attr('stroke','var(--cds-chart-reference)').attr('stroke-dasharray','4 3');
-    svg.append('text').attr('x',x(o.ref)+8).attr('y',H-8).text(o.refLabel);}
+  svg.append('line').attr('x1',x(0)).attr('x2',x(0)).attr('y1',top-2).attr('y2',H-24).attr('stroke','var(--cds-chart-axis)');
+  if(o.ref!=null){svg.append('line').attr('x1',x(o.ref)).attr('x2',x(o.ref)).attr('y1',top-2).attr('y2',H-24).attr('stroke','var(--cds-chart-reference)').attr('stroke-dasharray','4 3');
+    svg.append('text').attr('x',x(o.ref)+6).attr('y',H-6).text(o.refLabel);}
   const g=svg.append('g').selectAll('g').data(rows).join('g').attr('transform',(d,i)=>`translate(0,${y(i)})`);
   g.append('text').attr('class','lbl').attr('x',lw-8).attr('y',bh/2).attr('dy','0.35em').attr('text-anchor','end').text(d=>d.label);
-  g.append('rect').attr('x',d=>Math.min(x(0),x(d.value))).attr('width',d=>Math.max(1,Math.abs(x(d.value)-x(0)))).attr('height',bh).attr('rx',8)
+  g.append('rect').attr('x',d=>Math.min(x(0),x(d.value))).attr('width',d=>Math.max(1,Math.abs(x(d.value)-x(0)))).attr('height',bh).attr('rx',6)
     .attr('fill',d=>d.color||C[0]);
   g.append('text').attr('x',d=>d.value>=0?x(d.value)+4:x(d.value)-4).attr('text-anchor',d=>d.value>=0?'start':'end').attr('y',bh/2).attr('dy','0.35em').text(d=>o.fmt(d.value));
   g.append('rect').attr('x',0).attr('width',W).attr('y',-gap/2).attr('height',bh+gap).attr('fill','transparent')
     .on('pointermove',(ev,d)=>showTip(box,ev,d.label,d.tip)).on('pointerleave',()=>hideTip(box));
-  axisTitles(svg,{xTitle:o.xTitle,yTitle:o.yTitle,x:(x.range()[0]+x.range()[1])/2,xY:58,yX:28,y:(top+H)/2});
+  axisTitles(svg,{xTitle:o.xTitle,yTitle:o.yTitle,x:(x.range()[0]+x.range()[1])/2,xY:28,yX:16,y:(top+H)/2});
   mark(svg,W,H,'top');
 }
 window.payCharts={hbars,showTip,hideTip};
@@ -318,13 +318,13 @@ dash.onData(()=>{
     const rows=dash.data('hist').data.map(r=>({a:+r.bin_start,b:+r.bin_end,i:+r.internship,j:+r.junior}));
     const ti=d3.sum(rows,r=>r.i),tj=d3.sum(rows,r=>r.j);
     rows.forEach(r=>{r.si=r.i/ti;r.sj=r.j/tj;});
-    const W=hb.clientWidth||700,H=560,m={t:24,r:24,b:176,l:176};
+    const W=hb.clientWidth||700,H=360,m={t:16,r:16,b:88,l:100};
     const svg=d3.select(hb).append('svg').attr('width','100%').attr('viewBox',`0 0 ${W} ${H}`).attr('height',H);
     const x=d3.scaleLinear([0,6000],[m.l,W-m.r]);
     const y=d3.scaleLinear([0,d3.max(rows,r=>Math.max(r.si,r.sj))],[H-m.b,m.t]).nice();
     svg.append('g').selectAll('line').data(y.ticks(4)).join('line').attr('x1',m.l).attr('x2',W-m.r).attr('y1',d=>y(d)).attr('y2',d=>y(d)).attr('stroke','var(--cds-chart-grid)');
     const ya=svg.append('g').attr('transform',`translate(${m.l},0)`).call(d3.axisLeft(y).ticks(4).tickFormat(pct).tickSize(0)).attr('font-size',null).attr('font-family',null);ya.select('.domain').remove();ya.selectAll('text').attr('dx','-4');
-    const xt=spacedTicks(x,200);
+    const xt=spacedTicks(x,120);
     const xa=svg.append('g').attr('transform',`translate(0,${H-m.b})`).call(d3.axisBottom(x).tickValues(xt).tickFormat(v=>v>=6000?'€6k+':'€'+d3.format('~s')(v)).tickSize(0)).attr('font-size',null).attr('font-family',null);
     xa.select('.domain').attr('stroke','var(--cds-chart-axis)');xa.selectAll('text').attr('dy','1.2em');
     const bw=(x(200)-x(0)-3)/2;
@@ -333,7 +333,7 @@ dash.onData(()=>{
     });
     const hl=svg.append('rect').attr('fill','var(--cds-chart-grid)').attr('opacity',0).attr('y',m.t).attr('height',H-m.b-m.t);
     hl.lower();
-    axisTitles(svg,{xTitle:'Monthly pay (€)',yTitle:'Share of postings',x:(m.l+W-m.r)/2,xY:H-52,yX:32,y:(m.t+H-m.b)/2});
+    axisTitles(svg,{xTitle:'Monthly pay (€)',yTitle:'Share of postings',x:(m.l+W-m.r)/2,xY:H-28,yX:20,y:(m.t+H-m.b)/2});
     mark(svg,W,H,'bottom');
     svg.append('rect').attr('x',m.l).attr('width',W-m.l-m.r).attr('y',0).attr('height',H-m.b).attr('fill','transparent')
       .on('pointermove',ev=>{const [px]=d3.pointer(ev);const r=rows[Math.max(0,Math.min(rows.length-1,Math.floor(x.invert(px)/200)))];
@@ -347,24 +347,24 @@ dash.onData(()=>{
   if(state(cb,'countries')){
     cb.textContent='';
     const rows=dash.data('countries').data.filter(r=>num(r.junior_median)!=null).map(r=>({c:r.country,j:+r.junior_median,jn:+r.junior_n,i:num(r.intern_median),inn:num(r.intern_n)||0})).sort((a,b)=>b.j-a.j);
-    const W=cb.clientWidth||500,rh=88,top=148,H=top+rows.length*rh+16;
+    const W=cb.clientWidth||500,rh=44,top=88,H=top+rows.length*rh+8;
     const svg=d3.select(cb).append('svg').attr('width','100%').attr('viewBox',`0 0 ${W} ${H}`).attr('height',H);
-    const lw=52+Math.ceil(measure(svg,rows.map(r=>r.c)))+16;
-    const vw=Math.ceil(measure(svg,rows.map(r=>'€'+d3.format(',.1~f')(r.j/1000)+'k')))+24;
+    const lw=28+Math.ceil(measure(svg,rows.map(r=>r.c)))+14;
+    const vw=Math.ceil(measure(svg,rows.map(r=>'€'+d3.format(',.1~f')(r.j/1000)+'k')))+16;
     const x=d3.scaleLinear([0,d3.max(rows,r=>r.j)],[lw,W-vw]).nice();
-    const nt=spacedTicks(x,220);
+    const nt=spacedTicks(x,140);
     svg.append('g').selectAll('line').data(nt).join('line').attr('x1',d=>x(d)).attr('x2',d=>x(d)).attr('y1',top-2).attr('y2',H).attr('stroke','var(--cds-chart-grid)');
     const ax=svg.append('g').attr('transform',`translate(0,${top-8})`).call(d3.axisTop(x).tickValues(nt).tickFormat(v=>'€'+d3.format(',')(v)).tickSize(0)).attr('font-size',null).attr('font-family',null);ax.select('.domain').remove();
     const g=svg.append('g').selectAll('g').data(rows).join('g').attr('transform',(d,i)=>`translate(0,${top+i*rh+rh/2})`);
     g.append('text').attr('class','lbl').attr('x',lw-8).attr('dy','0.35em').attr('text-anchor','end').text(d=>d.c);
-    g.filter(d=>d.i!=null).append('line').attr('x1',d=>x(d.i)).attr('x2',d=>x(d.j)).attr('stroke','var(--cds-chart-muted)').attr('stroke-width',4).attr('stroke-linecap','round');
-    g.filter(d=>d.i!=null).append('circle').attr('cx',d=>x(d.i)).attr('r',12).attr('fill',C[0]).attr('stroke','var(--color-panel)').attr('stroke-width',3);
-    g.append('circle').attr('cx',d=>x(d.j)).attr('r',12).attr('fill',C[1]).attr('stroke','var(--color-panel)').attr('stroke-width',3);
-    g.append('text').attr('x',d=>x(d.j)+18).attr('dy','0.35em').text(d=>'€'+d3.format(',.1~f')(d.j/1000)+'k');
+    g.filter(d=>d.i!=null).append('line').attr('x1',d=>x(d.i)).attr('x2',d=>x(d.j)).attr('stroke','var(--cds-chart-muted)').attr('stroke-width',3).attr('stroke-linecap','round');
+    g.filter(d=>d.i!=null).append('circle').attr('cx',d=>x(d.i)).attr('r',7).attr('fill',C[0]).attr('stroke','var(--color-panel)').attr('stroke-width',2);
+    g.append('circle').attr('cx',d=>x(d.j)).attr('r',7).attr('fill',C[1]).attr('stroke','var(--color-panel)').attr('stroke-width',2);
+    g.append('text').attr('x',d=>x(d.j)+12).attr('dy','0.35em').text(d=>'€'+d3.format(',.1~f')(d.j/1000)+'k');
     g.append('rect').attr('x',0).attr('width',W).attr('y',-rh/2).attr('height',rh).attr('fill','transparent')
       .on('pointermove',(ev,d)=>showTip(cb,ev,d.c,[{c:C[1],v:eur(d.j),n:`Junior (n=${d.jn})`}].concat(d.i!=null?[{c:C[0],v:eur(d.i),n:`Internship (n=${d.inn})`}]:[{v:'—',n:`Internship (n=${d.inn}, too few)`}])))
       .on('pointerleave',()=>hideTip(cb));
-    axisTitles(svg,{xTitle:'Median pay (€)',yTitle:'Country',x:(lw+W-vw)/2,xY:58,yX:28,y:(top+H)/2});
+    axisTitles(svg,{xTitle:'Median pay (€)',yTitle:'Country',x:(lw+W-vw)/2,xY:28,yX:16,y:(top+H)/2});
     mark(svg,W,H,'top');
   }
 
@@ -409,14 +409,14 @@ dash.onData(()=>{
   function spreadChart(box, groups){
     box.textContent='';
     if(!groups.length) return;
-    const W=box.clientWidth||700, rh=148, top=148, H=top+groups.length*rh+16;
+    const W=box.clientWidth||700, rh=80, top=88, H=top+groups.length*rh+8;
     const svg=d3.select(box).append('svg').attr('width','100%').attr('viewBox',`0 0 ${W} ${H}`).attr('height',H);
     const lead=g=>g.series.find(s=>s.role==='Junior')||g.series[0];
-    const lw=52+Math.ceil(measure(svg, groups.map(g=>g.label)))+16;
-    const vw=Math.ceil(measure(svg, groups.map(g=>eur(lead(g).m))))+24;
+    const lw=28+Math.ceil(measure(svg, groups.map(g=>g.label)))+14;
+    const vw=Math.ceil(measure(svg, groups.map(g=>eur(lead(g).m))))+16;
     const xmax=d3.max(groups, g=>d3.max(g.series, s=>s.hi))||1;
     const x=d3.scaleLinear([0, xmax],[lw, W-vw]).nice();
-    const nt=spacedTicks(x,220);
+    const nt=spacedTicks(x,140);
     svg.append('g').selectAll('line').data(nt).join('line').attr('x1',d=>x(d)).attr('x2',d=>x(d)).attr('y1',top-2).attr('y2',H).attr('stroke','var(--cds-chart-grid)');
     const ax=svg.append('g').attr('transform',`translate(0,${top-8})`).call(d3.axisTop(x).tickValues(nt).tickFormat(v=>'€'+d3.format(',')(v)).tickSize(0)).attr('font-size',null).attr('font-family',null);
     ax.select('.domain').remove();
@@ -426,18 +426,18 @@ dash.onData(()=>{
     g.each(function(d){
       const row=d3.select(this);
       d.series.forEach(s=>{
-        const off=d.series.length<2?0:(s.role==='Junior'?-28:28);
+        const off=d.series.length<2?0:(s.role==='Junior'?-16:16);
         const sg=row.append('g').attr('transform',`translate(0,${off})`);
-        sg.append('line').attr('x1',x(s.lo)).attr('x2',x(s.hi)).attr('stroke',col(s.role)).attr('stroke-width',4).attr('stroke-linecap','round');
-        sg.append('rect').attr('x',x(Math.min(s.a,s.b))).attr('width',Math.max(4,Math.abs(x(s.b)-x(s.a)))).attr('y',-12).attr('height',24).attr('rx',6).attr('fill',col(s.role)).attr('opacity',.45);
-        sg.append('circle').attr('cx',x(s.m)).attr('r',12).attr('fill',col(s.role)).attr('stroke','var(--color-panel)').attr('stroke-width',3);
+        sg.append('line').attr('x1',x(s.lo)).attr('x2',x(s.hi)).attr('stroke',col(s.role)).attr('stroke-width',3).attr('stroke-linecap','round');
+        sg.append('rect').attr('x',x(Math.min(s.a,s.b))).attr('width',Math.max(3,Math.abs(x(s.b)-x(s.a)))).attr('y',-6).attr('height',12).attr('rx',4).attr('fill',col(s.role)).attr('opacity',.45);
+        sg.append('circle').attr('cx',x(s.m)).attr('r',7).attr('fill',col(s.role)).attr('stroke','var(--color-panel)').attr('stroke-width',2);
       });
     });
     g.append('text').attr('x',d=>x(d3.max(d.series,s=>s.hi))+8).attr('dy','0.35em').text(d=>eur(lead(d).m));
     g.append('rect').attr('x',0).attr('width',W).attr('y',-rh/2).attr('height',rh).attr('fill','transparent')
       .on('pointermove',(ev,d)=>showTip(box,ev,d.label,d.series.map(s=>({c:col(s.role),v:eur(s.m),n:`${s.role} · middle half ${eur(s.a)}–${eur(s.b)} · n=${d3.format(',')(s.n)} · ${sgn(s.premium)} vs country`}))))
       .on('pointerleave',()=>hideTip(box));
-    axisTitles(svg,{xTitle:'Monthly pay (€)',yTitle:groups.yTitle,x:(lw+W-vw)/2,xY:58,yX:28,y:(top+H)/2});
+    axisTitles(svg,{xTitle:'Monthly pay (€)',yTitle:groups.yTitle,x:(lw+W-vw)/2,xY:28,yX:16,y:(top+H)/2});
     mark(svg,W,H,'top');
   }
   const tb=document.getElementById('typeChart');
@@ -509,7 +509,7 @@ function panelSheet(box){
   const panels=[...box.querySelectorAll('.fe-panel')];
   if(panels.length<2) return null;
   const cols=getComputedStyle(box.querySelector('.fe-grid')).gridTemplateColumns.trim().split(/\s+/).filter(Boolean).length;
-  const gap=28, head=80;
+  const gap=28, head=48;
   const items=panels.map(p=>{
     const svg=[...p.querySelectorAll('svg')].find(s=>!s.parentElement.closest('svg'));
     return {title:p.querySelector('h4').textContent,node:styledClone(svg),w:svg.clientWidth||600,h:svg.clientHeight||svg.viewBox.baseVal.height||200};
@@ -523,7 +523,7 @@ function panelSheet(box){
   items.forEach((item,i)=>{
     const c=i%cols, r=Math.floor(i/cols);
     const x=c*(colW+gap), y=r*(blockH+gap);
-    sheet.appendChild(svgEl('text',{x,y:y+48,fill:'#0b0b0b','font-family':'Poppins, sans-serif','font-size':48,'font-weight':600},item.title));
+    sheet.appendChild(svgEl('text',{x,y:y+28,fill:'#0b0b0b','font-family':'Poppins, sans-serif','font-size':32,'font-weight':600},item.title));
     const holder=svgEl('svg',{x,y:y+head,width:item.w,height:item.h});
     item.node.setAttribute('x',0);item.node.setAttribute('y',0);item.node.setAttribute('width',item.w);item.node.setAttribute('height',item.h);
     holder.appendChild(item.node);
@@ -534,7 +534,7 @@ function panelSheet(box){
 function multiSheet(card){
   const boxes=[...card.querySelectorAll('.chart')].filter(b=>b.querySelector('svg'));
   if(boxes.length<2) return null;
-  const gap=28, head=72;
+  const gap=28, head=40;
   const items=boxes.map(b=>{
     const svg=[...b.querySelectorAll('svg')].find(s=>!s.parentElement.closest('svg'));
     const prev=b.previousElementSibling;
@@ -545,7 +545,7 @@ function multiSheet(card){
   let y=0;
   const sheet=svgEl('svg',{xmlns:NS,width:w,height:10,viewBox:`0 0 ${w} 10`});
   items.forEach(item=>{
-    if(item.title){sheet.appendChild(svgEl('text',{x:0,y:y+48,fill:'#0b0b0b','font-family':'Poppins, sans-serif','font-size':45,'font-weight':600},item.title)); y+=head;}
+    if(item.title){sheet.appendChild(svgEl('text',{x:0,y:y+28,fill:'#0b0b0b','font-family':'Poppins, sans-serif','font-size':30,'font-weight':600},item.title)); y+=head;}
     const holder=svgEl('svg',{x:0,y,width:item.w,height:item.h});
     item.node.setAttribute('x',0);item.node.setAttribute('y',0);item.node.setAttribute('width',item.w);item.node.setAttribute('height',item.h);
     holder.appendChild(item.node); sheet.appendChild(holder);
@@ -576,21 +576,21 @@ async function chartPng(card){
   if(prev==null) root.removeAttribute('data-theme');
   plot.setAttribute('x',0);plot.setAttribute('y',0);plot.setAttribute('width',w);plot.setAttribute('height',h);
   const title=(card.querySelector('h3')||{}).textContent||'chart';
-  const titleLines=wrapText(title,Math.max(240,w),'600 48px Poppins, sans-serif');
-  const titleTop=52, titleStep=60, plotY=titleTop+(titleLines.length-1)*titleStep+24, legendY=plotY+h+56;
-  const outW=w, outH=legend.length?legendY+24:plotY+h+12;
+  const titleLines=wrapText(title,Math.max(240,w),'600 32px Poppins, sans-serif');
+  const titleTop=36, titleStep=38, plotY=titleTop+(titleLines.length-1)*titleStep+18, legendY=plotY+h+36;
+  const outW=w, outH=legend.length?legendY+16:plotY+h+8;
   const out=svgEl('svg',{xmlns:NS,width:outW,height:outH,viewBox:`0 0 ${outW} ${outH}`});
   const style=svgEl('style',{});
   style.textContent=fontCss+'\ntext{font-family:Nunito,sans-serif}';
   out.appendChild(style);
-  titleLines.forEach((line,i)=>out.appendChild(svgEl('text',{x:0,y:titleTop+i*titleStep,fill:'#0b0b0b','font-family':'Poppins, sans-serif','font-size':48,'font-weight':600},line)));
+  titleLines.forEach((line,i)=>out.appendChild(svgEl('text',{x:0,y:titleTop+i*titleStep,fill:'#0b0b0b','font-family':'Poppins, sans-serif','font-size':32,'font-weight':600},line)));
   const measure=document.createElement('canvas').getContext('2d');
-  measure.font='52px Nunito, sans-serif';
+  measure.font='26px Nunito, sans-serif';
   let lx=0;
   legend.forEach(item=>{
-    out.appendChild(svgEl('rect',{x:lx,y:legendY-22,width:28,height:28,rx:4,fill:item.color}));
-    out.appendChild(svgEl('text',{x:lx+40,y:legendY,fill:'#5f5e5a','font-family':'Nunito, sans-serif','font-size':52},item.label));
-    lx+=40+Math.ceil(measure.measureText(item.label).width)+28;
+    out.appendChild(svgEl('rect',{x:lx,y:legendY-12,width:16,height:16,rx:3,fill:item.color}));
+    out.appendChild(svgEl('text',{x:lx+24,y:legendY,fill:'#5f5e5a','font-family':'Nunito, sans-serif','font-size':26},item.label));
+    lx+=24+Math.ceil(measure.measureText(item.label).width)+20;
   });
   const holder=svgEl('svg',{x:0,y:plotY,width:w,height:h});
   holder.appendChild(plot);
@@ -637,6 +637,6 @@ document.querySelectorAll('.pay .card').forEach(card=>{
 ensureFonts();
 })();
 </script>
-<script src="function_pay_chart.js?v=2"></script>
-<script src="accomplishments_charts.js?v=6"></script>
+<script src="function_pay_chart.js?v=3"></script>
+<script src="accomplishments_charts.js?v=7"></script>
 </body></html>

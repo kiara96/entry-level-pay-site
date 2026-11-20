@@ -99,31 +99,31 @@
       return {family:r.family, ads:+r.ads, asked:+r.asked, rate:+r.rate, parts:TYPES.map((t,i)=>({t,v:counts[i]/sum}))};
     }).filter(r=>r.asked>=10&&r.family!=='Other').sort((a,b)=>b.rate-a.rate);
     box.textContent='';
-    const W=box.clientWidth||1000, gap=36, rh=88, top=96;
+    const W=box.clientWidth||1000, gap=28, rh=56, top=56;
     const svg=d3.select(box).append('svg').attr('width','100%').attr('viewBox',`0 0 ${W} 10`).attr('height',10);
     const meas=t=>{const n=svg.append('text').text(t); const w=n.node().getComputedTextLength(); n.remove(); return w;};
-    const labW=Math.ceil(d3.max(rows,r=>meas(r.family)))+16;
+    const labW=Math.ceil(d3.max(rows,r=>meas(r.family)))+12;
     const fulls=rows.map(r=>`${Math.round(r.rate*100)}% (${num(r.asked)} of ${num(r.ads)})`);
-    const fullW=Math.ceil(d3.max(fulls,meas))+20;
+    const fullW=Math.ceil(d3.max(fulls,meas))+14;
     const useFull=labW+fullW+48<W;
-    const valW=useFull?fullW:Math.ceil(meas('21%'))+20;
+    const valW=useFull?fullW:Math.ceil(meas('21%'))+14;
     const legendItems=TYPES.map(t=>({t,w:meas(t)}));
     let legendRows=1, legendX=0;
-    legendItems.forEach(it=>{const need=40+it.w+36; if(legendX>0&&legendX+need>W){legendRows++;legendX=need;}else legendX+=need;});
-    const legendH=legendRows*60+16;
+    legendItems.forEach(it=>{const need=28+it.w+24; if(legendX>0&&legendX+need>W){legendRows++;legendX=need;}else legendX+=need;});
+    const legendH=legendRows*36+12;
     const narrow=Math.round(W*0.46)<labW+valW+80;
     const leftW=narrow?W:Math.round(W*0.46), rightX=narrow?0:leftW+gap, rightW=narrow?W:W-rightX;
-    const plotH=top+rows.length*rh+80;
-    const H=narrow?plotH+24+plotH+legendH:plotH+legendH;
+    const plotH=top+rows.length*rh+40;
+    const H=narrow?plotH+16+plotH+legendH:plotH+legendH;
     svg.attr('viewBox',`0 0 ${W} ${H}`).attr('height',H);
-    svg.append('text').attr('class','axis-title').attr('x',0).attr('y',58).text('How often they ask');
+    svg.append('text').attr('class','axis-title').attr('x',0).attr('y',32).text('How often they ask');
     const x=d3.scaleLinear([0,0.32],[labW,Math.max(labW+80,leftW-valW)]);
     [0.1,0.2].forEach(t=>svg.append('line').attr('x1',x(t)).attr('x2',x(t)).attr('y1',top).attr('y2',top+rows.length*rh).attr('stroke','var(--cds-chart-grid)'));
     rows.forEach((r,i)=>{
       const cy=top+i*rh+rh/2;
-      svg.append('text').attr('class','lbl').attr('text-anchor','end').attr('x',labW-12).attr('y',cy).attr('dy','0.35em').text(r.family);
-      svg.append('rect').attr('x',labW).attr('y',cy-24).attr('width',Math.max(1,x(r.rate)-labW)).attr('height',48).attr('rx',8).attr('fill',ORANGE);
-      svg.append('text').attr('x',x(r.rate)+8).attr('y',cy).attr('dy','0.35em').text(useFull?fulls[i]:`${Math.round(r.rate*100)}%`);
+      svg.append('text').attr('class','lbl').attr('text-anchor','end').attr('x',labW-10).attr('y',cy).attr('dy','0.35em').text(r.family);
+      svg.append('rect').attr('x',labW).attr('y',cy-12).attr('width',Math.max(1,x(r.rate)-labW)).attr('height',24).attr('rx',6).attr('fill',ORANGE);
+      svg.append('text').attr('x',x(r.rate)+6).attr('y',cy).attr('dy','0.35em').text(useFull?fulls[i]:`${Math.round(r.rate*100)}%`);
       if(narrow){
         const tip=[{c:ORANGE,v:`${num(r.asked)} of ${num(r.ads)}`,n:'ads ask'}].concat(r.parts.filter(p=>p.v>0).map(p=>({c:COL[p.t],v:Math.round(p.v*100)+'%',n:p.t})));
         svg.append('rect').attr('x',0).attr('width',W).attr('y',top+i*rh).attr('height',rh).attr('fill','transparent')
@@ -131,9 +131,9 @@
           .on('pointerleave',()=>window.payCharts.hideTip(box));
       }
     });
-    [0,0.1,0.2].forEach(t=>svg.append('text').attr('text-anchor','middle').attr('x',x(t)).attr('y',top+rows.length*rh+52).text(Math.round(t*100)+'%'));
-    const yShift=narrow?plotH+24:0;
-    svg.append('text').attr('class','axis-title').attr('x',rightX).attr('y',yShift+58).text('What they ask for (share of mentions)');
+    [0,0.1,0.2].forEach(t=>svg.append('text').attr('text-anchor','middle').attr('x',x(t)).attr('y',top+rows.length*rh+28).text(Math.round(t*100)+'%'));
+    const yShift=narrow?plotH+16:0;
+    svg.append('text').attr('class','axis-title').attr('x',rightX).attr('y',yShift+32).text('What they ask for (share of mentions)');
     const x2=d3.scaleLinear([0,1],[rightX,rightX+rightW]);
     [0.5].forEach(t=>svg.append('line').attr('x1',x2(t)).attr('x2',x2(t)).attr('y1',yShift+top).attr('y2',yShift+top+rows.length*rh).attr('stroke','var(--cds-chart-grid)'));
     rows.forEach((r,i)=>{
@@ -142,9 +142,9 @@
       r.parts.forEach(p=>{
         if(p.v<=0) return;
         const xA=x2(acc), xB=x2(acc+p.v);
-        svg.append('rect').attr('x',xA).attr('y',cy-24).attr('width',Math.max(0,xB-xA-1)).attr('height',48).attr('fill',COL[p.t]);
+        svg.append('rect').attr('x',xA).attr('y',cy-12).attr('width',Math.max(0,xB-xA-1)).attr('height',24).attr('fill',COL[p.t]);
         const bit=Math.round(p.v*100)+'%';
-        if(xB-xA-12>meas(bit)){
+        if(xB-xA-8>meas(bit)){
           svg.append('text').attr('class',light.has(COL[p.t].toLowerCase())?'ac-onbar ink':'ac-onbar').attr('text-anchor','middle')
             .attr('x',(xA+xB)/2).attr('y',cy).attr('dy','0.35em').text(bit);
         }
@@ -155,13 +155,13 @@
         .on('pointermove',ev=>window.payCharts.showTip(box,ev,r.family,tip))
         .on('pointerleave',()=>window.payCharts.hideTip(box));
     });
-    [0,0.5,1].forEach(t=>svg.append('text').attr('text-anchor',t===1?'end':'middle').attr('x',t===1?rightX+rightW-2:x2(t)).attr('y',yShift+top+rows.length*rh+52).text(Math.round(t*100)+'%'));
-    let lx=0, ly=H-legendH+44;
+    [0,0.5,1].forEach(t=>svg.append('text').attr('text-anchor',t===1?'end':'middle').attr('x',t===1?rightX+rightW-2:x2(t)).attr('y',yShift+top+rows.length*rh+28).text(Math.round(t*100)+'%'));
+    let lx=0, ly=H-legendH+26;
     legendItems.forEach(it=>{
-      const need=40+it.w+36;
-      if(lx>0&&lx+need>W){lx=0;ly+=60;}
-      svg.append('rect').attr('x',lx).attr('y',ly-22).attr('width',28).attr('height',28).attr('rx',4).attr('fill',COL[it.t]);
-      svg.append('text').attr('x',lx+40).attr('y',ly).text(it.t);
+      const need=28+it.w+24;
+      if(lx>0&&lx+need>W){lx=0;ly+=36;}
+      svg.append('rect').attr('x',lx).attr('y',ly-12).attr('width',16).attr('height',16).attr('rx',3).attr('fill',COL[it.t]);
+      svg.append('text').attr('x',lx+24).attr('y',ly).text(it.t);
       lx+=need;
     });
     if(window.karimiMark) window.karimiMark(svg,W,H,'top');
